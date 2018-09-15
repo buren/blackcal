@@ -2,10 +2,10 @@
 
 require 'time'
 
-require 'blackcal/time_range'
-require 'blackcal/time_of_day_range'
-require 'blackcal/weekday_range'
-require 'blackcal/day_range'
+require 'blackcal/range/time_range'
+require 'blackcal/range/time_of_day_range'
+require 'blackcal/range/weekday_range'
+require 'blackcal/range/day_range'
 require 'blackcal/slot_matrix'
 
 module Blackcal
