@@ -20,14 +20,49 @@ Or install it yourself as:
 
 ## Usage
 
+Schedule Mondays and Tuesdays
 ```ruby
-rule = Blackcal::Rule.new(start_hour: 18, end_hour: 7)
-
-rule.open?(Time.parse('2019-01-01 19:00'))
+schedule = Blackcal::Schedule.new(weekdays: [:monday, :tuesday])
+schedule.cover?('2019-01-01 19:00')
 # => false
-
-rule.open?(Time.parse('2019-01-01 11:00'))
+schedule.cover?('2019-01-02 11:00')
 # => true
+```
+
+Schedule between 18pm and 7am every day
+```ruby
+schedule = Blackcal::Schedule.new(start_hour: 18, finish_hour: 7)
+schedule.cover?('2019-01-01 19:00')
+# => false
+schedule.cover?('2019-01-01 11:00')
+# => true
+```
+
+Schedule day 15 and 17 of month
+```ruby
+schedule = Blackcal::Schedule.new(days: [15, 17])
+schedule.cover?('2019-01-15 19:00')
+# => false
+schedule.cover?('2019-01-01 11:00')
+# => true
+```
+
+All options at once - schedule Tuesdays, day 15-25, between 18pm and 7am every day
+```ruby
+schedule = Blackcal::Schedule.new(
+  weekdays: [:monday, :tuesday],
+  start_hour: 18, finish_hour: 7,
+  days: (15..25).to_a
+)
+schedule.cover?('2019-01-15 19:00')
+# => false
+schedule.cover?('2019-01-01 11:00')
+# => true
+```
+
+Define when the schedule is active
+```ruby
+Blackcal::Schedule.new(start_time: '2018-01-01 11:00', finish_time: '2019-01-01 11:00')
 ```
 
 ## Development
