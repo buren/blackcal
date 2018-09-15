@@ -1,8 +1,6 @@
 # Blackcal
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/blackcal`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Create blacklist rules for calendars with ease. Supports recurring rules for certain weekdays, date numbers, hour of day.
 
 ## Installation
 
@@ -22,7 +20,15 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+rule = Blackcal::Rule.new(start_hour: 18, end_hour: 7)
+
+rule.open?(Time.parse('2019-01-01 19:00'))
+# => false
+
+rule.open?(Time.parse('2019-01-01 11:00'))
+# => true
+```
 
 ## Development
 

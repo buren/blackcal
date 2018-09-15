@@ -10,9 +10,9 @@ Gem::Specification.new do |spec|
   spec.authors       = ['Jacob Burenstam']
   spec.email         = ['burenstam@gmail.com']
 
-  spec.summary       = 'TODO: Write a short summary, because RubyGems requires one.'
-  spec.description   = 'TODO: Write a longer description or delete this line.'
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.summary       = 'Create blacklist rules for calendars with ease.'
+  spec.description   = 'Create blacklist rules for calendars with ease. Supports recurring rules for certain weekdays, date numbers, hour of day.'
+  spec.homepage      = 'https://github.com/buren/blackcal'
   spec.license       = 'MIT'
 
   # Specify which files should be added to the gem when it is released.
