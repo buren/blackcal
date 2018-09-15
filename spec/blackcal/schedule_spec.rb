@@ -63,4 +63,22 @@ RSpec.describe Blackcal::Schedule do
       end
     end
   end
+
+  describe '#to_matrix' do
+    it 'works' do
+      schedule = described_class.new(weekdays: :friday, start_hour: 10, finish_hour: 14)
+      matrix = schedule.to_matrix(start_date: '2018-09-14', finish_date: '2018-09-16')
+
+      expected = [
+        [
+          true, true, true, true, true, true, true, true, true, true, # 00-09
+          false, false, false, false, false, # 10-14
+          true, true, true, true, true, true, true, true, true, # 15-23
+        ],
+        [true] * 24
+      ]
+
+      expect(matrix).to eq(expected)
+    end
+  end
 end

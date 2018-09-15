@@ -6,6 +6,7 @@ require 'blackcal/time_range'
 require 'blackcal/time_of_day_range'
 require 'blackcal/weekday_range'
 require 'blackcal/day_range'
+require 'blackcal/slot_matrix'
 
 module Blackcal
   # Represents a schedule
@@ -44,6 +45,23 @@ module Blackcal
       end
 
       false
+    end
+
+    # Returns schedule represented as a matrix
+    # @param start_date [Date]
+    # @param finish_date [Date]
+    # @return [Array<Array<Boolean>>]
+    def to_matrix(start_date:, finish_date:)
+      start_time = parse_time(start_date).to_time
+      finish_time = parse_time(finish_date).to_time
+      matrix = SlotMatrix.new(24)
+
+      # TODO: This is needlessly inefficient..
+      seconds = (start_time - finish_time).abs
+      hours = (seconds / (60 * 60)).to_i
+      hours.times { |hour| matrix << cover?(start_time + (hour * 60 * 60)) }
+
+      matrix.data
     end
 
     private

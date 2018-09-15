@@ -65,6 +65,13 @@ Define when the schedule is active
 Blackcal::Schedule.new(start_time: '2018-01-01 11:00', finish_time: '2019-01-01 11:00')
 ```
 
+Matrix representation
+```ruby
+schedule = Blackcal::Schedule.new(weekdays: :friday, start_hour: 10, finish_hour: 14)
+schedule.to_matrix(start_date: '2018-09-14', finish_date: '2018-09-16')
+# => [[true, ...], [true, ...]]
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
