@@ -1,4 +1,4 @@
-# Blackcal
+# Blackcal [![Build Status](https://travis-ci.com/buren/blackcal.svg?branch=master)](https://travis-ci.com/buren/blackcal)
 
 Create blacklist rules for calendars with ease. Supports recurring rules for certain weekdays, date numbers, hour of day.
 
