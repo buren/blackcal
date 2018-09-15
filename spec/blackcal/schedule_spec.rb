@@ -6,28 +6,28 @@ require 'time'
 RSpec.describe Blackcal::Schedule do
   describe '#cover?' do
     it 'given no arguments it allows nothing' do
-      rule = described_class.new
+      schedule = described_class.new
 
-      expect(rule.cover?('2019-01-01 19:00')).to eq(false)
+      expect(schedule.cover?('2019-01-01 19:00')).to eq(false)
     end
 
     it 'given only start date allows nothing' do
-      rule = described_class.new(start_time: '2000-01-01')
+      schedule = described_class.new(start_time: '2000-01-01')
 
-      expect(rule.cover?('2019-01-01 19:00')).to eq(false)
+      expect(schedule.cover?('2019-01-01 19:00')).to eq(false)
     end
 
     context 'with start and end hour' do
       it 'handles disallowed cases' do
-        rule = described_class.new(start_hour: 18, finish_hour: 12)
+        schedule = described_class.new(start_hour: 18, finish_hour: 12)
 
-        expect(rule.cover?('2019-01-01 19:00')).to eq(false)
+        expect(schedule.cover?('2019-01-01 19:00')).to eq(false)
       end
 
       it 'handles allowed cases' do
-        rule = described_class.new(start_hour: 18, finish_hour: 12)
+        schedule = described_class.new(start_hour: 18, finish_hour: 12)
 
-        expect(rule.cover?('2019-01-01 17:00')).to eq(true)
+        expect(schedule.cover?('2019-01-01 17:00')).to eq(true)
       end
     end
 
@@ -54,7 +54,7 @@ RSpec.describe Blackcal::Schedule do
       expected, timestamp, start_hour, finish_hour, weekdays, days = data
 
       it "returns #{expected}" do
-        rule = described_class.new(
+        schedule = described_class.new(
           start_time: '2000-01-01',
           start_hour: start_hour,
           finish_hour: finish_hour,
@@ -62,7 +62,7 @@ RSpec.describe Blackcal::Schedule do
           days: days
         )
 
-        expect(rule.cover?(timestamp)).to eq(expected)
+        expect(schedule.cover?(timestamp)).to eq(expected)
       end
     end
   end

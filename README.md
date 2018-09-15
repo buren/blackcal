@@ -22,16 +22,16 @@ Or install it yourself as:
 
 Schedule Mondays and Tuesdays
 ```ruby
-schedule = Blackcal::Schedule.new(weekdays: [:monday, :tuesday])
+schedule = Blackcal.schedule(weekdays: [:monday, :tuesday])
 schedule.cover?('2019-01-01 19:00')
 # => false
 schedule.cover?('2019-01-02 11:00')
 # => true
 ```
 
-Schedule between 18pm and 7am every day
+Schedule between 6pm and 7am every day
 ```ruby
-schedule = Blackcal::Schedule.new(start_hour: 18, finish_hour: 7)
+schedule = Blackcal.schedule(start_hour: 18, finish_hour: 7)
 schedule.cover?('2019-01-01 19:00')
 # => false
 schedule.cover?('2019-01-01 11:00')
@@ -40,7 +40,7 @@ schedule.cover?('2019-01-01 11:00')
 
 Schedule day 15 and 17 of month
 ```ruby
-schedule = Blackcal::Schedule.new(days: [15, 17])
+schedule = Blackcal.schedule(days: [15, 17])
 schedule.cover?('2019-01-15 19:00')
 # => false
 schedule.cover?('2019-01-01 11:00')
@@ -49,7 +49,7 @@ schedule.cover?('2019-01-01 11:00')
 
 All options at once - schedule January, Mondays and Tuesdays, day 15-25, between 18pm and 7am
 ```ruby
-schedule = Blackcal::Schedule.new(
+schedule = Blackcal.schedule(
   months: [:january],
   weekdays: [:monday, :tuesday],
   start_hour: 18, finish_hour: 7,
@@ -63,12 +63,12 @@ schedule.cover?('2019-02-01 11:00')
 
 Define when the schedule is active
 ```ruby
-Blackcal::Schedule.new(start_time: '2018-01-01 11:00', finish_time: '2019-01-01 11:00')
+Blackcal.schedule(start_time: '2018-01-01 11:00', finish_time: '2019-01-01 11:00')
 ```
 
 Matrix representation
 ```ruby
-schedule = Blackcal::Schedule.new(weekdays: :friday, start_hour: 10, finish_hour: 14)
+schedule = Blackcal.schedule(weekdays: :friday, start_hour: 10, finish_hour: 14)
 schedule.to_matrix(start_date: '2018-09-14', finish_date: '2018-09-16')
 # => [[true, ...], [true, ...]]
 ```
