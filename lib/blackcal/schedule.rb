@@ -5,6 +5,7 @@ require 'time'
 require 'blackcal/range/time_range'
 require 'blackcal/range/time_of_day_range'
 require 'blackcal/range/weekday_range'
+require 'blackcal/range/month_range'
 require 'blackcal/range/day_range'
 require 'blackcal/slot_matrix'
 
@@ -16,6 +17,7 @@ module Blackcal
     # @param finish_time [Time, Date, String, nil]
     # @param start_hour [Integer, nil]
     # @param finish_hour [Integer, nil]
+    # @param months [Array<String>, Array<Symbol>, String, Symbol, nil]
     # @param weekdays [Array<String>, Array<Symbol>, String, Symbol, nil]
     # @param days [Array<Integer>, Integer, nil]
     def initialize(
@@ -23,12 +25,14 @@ module Blackcal
       finish_time: nil,
       start_hour: nil,
       finish_hour: nil,
+      months: nil,
       weekdays: nil,
       # weeks_of_month: nil, # TODO
       days: nil
     )
       @rule_range = TimeRange.new(parse_time(start_time), parse_time(finish_time)) if start_time || finish_time # rubocop:disable Metrics/LineLength
       @time_of_day = TimeOfDayRange.new(start_hour, finish_hour) if start_hour || finish_hour # rubocop:disable Metrics/LineLength
+      @months = MonthRange.new(months) if months
       @weekdays = WeekdayRange.new(weekdays) if weekdays
       @days = DayRange.new(days) if days
     end
@@ -40,7 +44,7 @@ module Blackcal
       timestamp = parse_time(timestamp)
       return true if @rule_range && !@rule_range.cover?(timestamp)
 
-      [@weekdays, @days, @time_of_day].each do |range|
+      [@months, @weekdays, @days, @time_of_day].each do |range|
         return true if range && !range.cover?(timestamp)
       end
 

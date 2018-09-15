@@ -32,21 +32,24 @@ RSpec.describe Blackcal::Schedule do
     end
 
     [
-      # expected, timestamp, start_hour, finish_hour, weekdays, days
-      [true, '2018-09-15 19:00Z', 18, 12, :monday, 15],
-      [false, '2018-09-15 19:00Z', 18, 12, :saturday, 15],
-      [true, '2018-09-15 13:00Z', 18, 12, :saturday, 15],
-      [false, '2018-09-15 13:00Z', nil, nil, :saturday, 15],
-      [false, '2018-09-15 13:00Z', nil, nil, :saturday, nil],
-      [true, '2018-09-15 13:00Z', nil, nil, :monday, nil],
-      [true, '2018-09-15 13:00Z', nil, nil, :monday, 15],
-      [true, '2018-09-15 13:00Z', nil, nil, :monday, 15],
-      [true, '2018-09-15 13:00Z', 18, 12, :saturday, nil],
-      [false, '2018-09-15 13:00Z', 10, 18, :saturday, nil],
-      [false, '2018-09-15 13:00Z', nil, nil, nil, 15],
-      [true, '2018-09-15 13:00Z', nil, nil, nil, 17],
-      [true, '2018-09-15 13:00Z', 10, 14, nil, 17],
-      [false, '2018-09-15 13:00Z', 10, 14, nil, nil],
+      # expected, timestamp, start_hour, finish_hour, weekdays, days, months
+      [false, '2018-10-15 19:00Z', 18, 12, :monday, 15, :november],
+      [true, '2018-10-15 19:00Z', 18, 12, :tuesday, 15, nil],
+      [false, '2018-10-15 19:00Z', 18, 12, :monday, 15, :october],
+      [true, '2018-09-15 19:00Z', 18, 12, :monday, 15, nil],
+      [false, '2018-09-15 19:00Z', 18, 12, :saturday, 15, nil],
+      [true, '2018-09-15 13:00Z', 18, 12, :saturday, 15, nil],
+      [false, '2018-09-15 13:00Z', nil, nil, :saturday, 15, nil],
+      [false, '2018-09-15 13:00Z', nil, nil, :saturday, nil, nil],
+      [true, '2018-09-15 13:00Z', nil, nil, :monday, nil, nil],
+      [true, '2018-09-15 13:00Z', nil, nil, :monday, 15, nil],
+      [true, '2018-09-15 13:00Z', nil, nil, :monday, 15, nil],
+      [true, '2018-09-15 13:00Z', 18, 12, :saturday, nil, nil],
+      [false, '2018-09-15 13:00Z', 10, 18, :saturday, nil, nil],
+      [false, '2018-09-15 13:00Z', nil, nil, nil, 15, nil],
+      [true, '2018-09-15 13:00Z', nil, nil, nil, 17, nil],
+      [true, '2018-09-15 13:00Z', 10, 14, nil, 17, nil],
+      [false, '2018-09-15 13:00Z', 10, 14, nil, nil, nil],
     ].each do |data|
       expected, timestamp, start_hour, finish_hour, weekdays, days = data
 
