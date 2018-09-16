@@ -2,7 +2,6 @@
 
 require 'spec_helper'
 require 'time'
-require 'blackcal/time_util'
 
 RSpec.describe Blackcal::TimeUtil do
   describe '#week_of_month' do

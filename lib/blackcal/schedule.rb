@@ -4,6 +4,7 @@ require 'time'
 
 require 'blackcal/range/time_range'
 require 'blackcal/range/time_of_day_range'
+require 'blackcal/range/week_of_month_range'
 require 'blackcal/range/weekday_range'
 require 'blackcal/range/month_range'
 require 'blackcal/range/day_range'
@@ -32,7 +33,7 @@ module Blackcal
       finish_hour: nil,
       months: nil,
       weekdays: nil,
-      # weeks_of_month: nil, # TODO
+      weeks_of_month: nil,
       days: nil
     )
       if start_time || finish_time
@@ -45,6 +46,10 @@ module Blackcal
 
       if months
         @months = MonthRange.new(months)
+      end
+
+      if weeks_of_month
+        @weeks_of_month = WeekOfMonthRange.new(weeks_of_month)
       end
 
       if weekdays
@@ -63,7 +68,7 @@ module Blackcal
       timestamp = parse_time(timestamp)
       return false if @rule_range && !@rule_range.cover?(timestamp)
 
-      ranges = [@months, @weekdays, @days, @time_of_day].compact
+      ranges = [@months, @weekdays, @days, @time_of_day, @weeks_of_month].compact
       return false if ranges.empty?
 
       ranges.all? { |range| range.cover?(timestamp) }
