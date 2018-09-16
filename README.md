@@ -71,6 +71,11 @@ Matrix representation
 schedule = Blackcal.schedule(weekdays: :friday, start_hour: 0, finish_hour: 14)
 schedule.to_matrix(start_date: '2018-09-14', finish_date: '2018-09-16')
 # => [[true, ...], [false, ...]]
+
+# defaults to hour resolution, but you can get minute resolution too
+schedule = Blackcal.schedule(weekdays: :friday, start_hour: 0, finish_hour: 14)
+schedule.to_matrix(resolution: :min, start_date: '2018-09-14', finish_date: '2018-09-16')
+# => [[true, ...], [false, ...]]
 ```
 
 ## Development

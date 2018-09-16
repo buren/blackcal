@@ -36,7 +36,7 @@ module Blackcal
       time_units = ((start - finish) / resolution_multiplier).abs.to_i
 
       time_units.times.map do |time_unit|
-        start + ((time_unit + 1) * resolution_multiplier)
+        start + (time_unit * resolution_multiplier)
       end
     end
 

@@ -11,7 +11,7 @@ RSpec.describe Blackcal::TimeRange do
         finish = Time.parse('2018-01-01 11:00Z')
         range = described_class.new(start, finish)
 
-        expected = [Time.parse('2018-01-01 10:00Z'), Time.parse('2018-01-01 11:00Z')]
+        expected = [Time.parse('2018-01-01 09:00Z'), Time.parse('2018-01-01 10:00Z')]
         expect(range.to_a).to eq(expected)
       end
 
@@ -20,8 +20,8 @@ RSpec.describe Blackcal::TimeRange do
         finish = Time.parse('2018-01-02 11:00Z')
         range = described_class.new(start, finish)
 
-        first = Time.parse('2018-01-01 10:00Z')
-        last = Time.parse('2018-01-02 11:00Z')
+        first = Time.parse('2018-01-01 09:00Z')
+        last = Time.parse('2018-01-02 10:00Z')
         expect(range.to_a.first).to eq(first)
         expect(range.to_a.last).to eq(last)
         expect(range.to_a.length).to eq(26)
@@ -32,7 +32,7 @@ RSpec.describe Blackcal::TimeRange do
         finish = Time.parse('2018-01-01 11:00Z')
         range = described_class.new(start, finish)
 
-        expected = [Time.parse('2018-01-01 10:00Z'), Time.parse('2018-01-01 11:00Z')].each
+        expected = [Time.parse('2018-01-01 09:00Z'), Time.parse('2018-01-01 10:00Z')].each
         range.each do |v|
           expect(v).to eq(expected.next)
         end
@@ -45,8 +45,8 @@ RSpec.describe Blackcal::TimeRange do
         finish = Time.parse('2018-01-02 11:00Z')
         range = described_class.new(start, finish)
 
-        first = Time.parse('2018-01-01 09:01Z')
-        last = Time.parse('2018-01-02 11:00Z')
+        first = Time.parse('2018-01-01 09:00Z')
+        last = Time.parse('2018-01-02 10:59Z')
         array = range.to_a(resolution: :min)
 
         expect(array.first).to eq(first)
@@ -59,10 +59,11 @@ RSpec.describe Blackcal::TimeRange do
         finish = Time.parse('2018-01-01 11:00Z')
         range = described_class.new(start, finish)
 
-        expected = [Time.parse('2018-01-01 10:00Z'), Time.parse('2018-01-01 11:00Z')].each
-        range.each do |v|
-          expect(v).to eq(expected.next)
-        end
+        first = Time.parse('2018-01-01 09:00Z')
+        last = Time.parse('2018-01-01 10:59Z')
+        array = range.each(resolution: :min).to_a
+        expect(array.first).to eq(first)
+        expect(array.last).to eq(last)
       end
     end
   end

@@ -79,7 +79,7 @@ RSpec.describe Blackcal::Schedule do
   end
 
   describe '#to_matrix' do
-    it 'works' do
+    it 'works with hour resolution' do
       schedule = described_class.new(weekdays: :friday, start_hour: 10, finish_hour: 14)
       matrix = schedule.to_matrix(start_date: '2018-09-14', finish_date: '2018-09-16')
 
@@ -90,6 +90,28 @@ RSpec.describe Blackcal::Schedule do
           *([false] * 9), # 15-23
         ],
         [false] * 24
+      ]
+
+      expect(matrix).to eq(expected)
+    end
+
+    it 'works with minute resolution' do
+      schedule = described_class.new(
+        start_hour: Blackcal::TimeOfDay.new(23, 58),
+        finish_hour: Blackcal::TimeOfDay.new(0, 2),
+      )
+      matrix = schedule.to_matrix(
+        start_date: '2018-09-14',
+        finish_date: '2018-09-15',
+        resolution: :min
+      )
+
+      expected = [
+        [
+          *([true] * 3),
+          *([false] * 1435),
+          *([true] * 2),
+        ]
       ]
 
       expect(matrix).to eq(expected)

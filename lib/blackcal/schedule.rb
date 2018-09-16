@@ -73,15 +73,17 @@ module Blackcal
     # @param start_date [Date]
     # @param finish_date [Date]
     # @return [Array<Array<Boolean>>]
-    def to_matrix(start_date:, finish_date:)
+    def to_matrix(start_date:, finish_date:, resolution: :hour)
       start_time = parse_time(start_date).to_time
       finish_time = parse_time(finish_date).to_time
-      matrix = SlotMatrix.new(24)
+      slots = resolution == :hour ? 24 : 24 * 60
+      matrix = SlotMatrix.new(slots)
 
       # TODO: This is needlessly inefficient..
-      seconds = (start_time - finish_time).abs
-      hours = (seconds / (60 * 60)).to_i
-      hours.times { |hour| matrix << cover?(start_time + (hour * 60 * 60)) }
+      time_range = TimeRange.new(start_time, finish_time)
+      time_range.each(resolution: resolution) do |time|
+        matrix << cover?(time)
+      end
 
       matrix.data
     end
