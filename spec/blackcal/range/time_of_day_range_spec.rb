@@ -14,6 +14,26 @@ RSpec.describe Blackcal::TimeOfDayRange do
   end
 
   describe '#to_a' do
+    def zero_zip(arr)
+      arr.zip([0] * arr.length)
+    end
+
+    it 'returns disallowed mins for one hour' do
+      range = described_class.new(18, 18)
+
+      expected = (0..59).map { |min| [18, min] }
+      expect(range.to_a(resolution: :min)).to eq(expected)
+    end
+
+    it 'returns disallowed mins for multiple hour' do
+      range = described_class.new(Blackcal::TimeOfDay.new(23, 4), Blackcal::TimeOfDay.new(1, 31))
+      expected = []
+      expected.concat((4..59).map { |min| [23, min] })
+      expected.concat((0..59).map { |min| [0, min] })
+      expected.concat((0..31).map { |min| [1, min] })
+      expect(range.to_a(resolution: :min)).to eq(expected)
+    end
+
     it 'returns empty when given neither start or finish time' do
       range = described_class.new(nil, nil)
 
@@ -23,60 +43,60 @@ RSpec.describe Blackcal::TimeOfDayRange do
     it 'returns disallowed_hours when given only start time' do
       range = described_class.new(18, nil)
 
-      expected = [18, 19, 20, 21, 22, 23, 0]
+      expected = zero_zip([18, 19, 20, 21, 22, 23, 0])
       expect(range.to_a).to eq(expected)
     end
 
     it 'returns disallowed_hours when given only finish time' do
       range = described_class.new(nil, 9)
 
-      expected = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+      expected = zero_zip([0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
       expect(range.to_a).to eq(expected)
     end
 
     it 'returns disallowed_hours when given start and finish (and start larger than finish)' do # rubocop:disable Metrics/LineLength
       range = described_class.new(18, 5)
 
-      expected = [18, 19, 20, 21, 22, 23, 0, 1, 2, 3, 4, 5]
+      expected = zero_zip([18, 19, 20, 21, 22, 23, 0, 1, 2, 3, 4, 5])
       expect(range.to_a).to eq(expected)
     end
 
     it 'returns disallowed_hours when given start and finish (and start smaller than finish)' do # rubocop:disable Metrics/LineLength
       range = described_class.new(10, 13)
 
-      expected = [10, 11, 12, 13]
+      expected = zero_zip([10, 11, 12, 13])
       expect(range.to_a).to eq(expected)
     end
 
     it 'returns disallowed_hours when start and finish are equal' do
       range = described_class.new(9, 9)
 
-      expect(range.to_a).to eq([9])
+      expect(range.to_a).to eq(zero_zip([9]))
     end
 
     it 'returns disallowed_hours when start is one hour before finish' do
       range = described_class.new(9, 10)
 
-      expect(range.to_a).to eq([9, 10])
+      expect(range.to_a).to eq(zero_zip([9, 10]))
     end
 
     context 'returns disallowed_hours when arround midnight' do
       it do
         range = described_class.new(23, 0)
 
-        expect(range.to_a).to eq([23, 0])
+        expect(range.to_a).to eq(zero_zip([23, 0]))
       end
 
       it do
         range = described_class.new(23, 1)
 
-        expect(range.to_a).to eq([23, 0, 1])
+        expect(range.to_a).to eq(zero_zip([23, 0, 1]))
       end
 
       it do
         range = described_class.new(0, 23)
 
-        expect(range.to_a).to eq((0..23).to_a)
+        expect(range.to_a).to eq(zero_zip((0..23).to_a))
       end
     end
   end

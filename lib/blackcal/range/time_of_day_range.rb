@@ -60,9 +60,21 @@ module Blackcal
     private
 
     def to_time_array(start, finish, resolution)
-      return (start.hour..finish.hour).to_a if resolution == :hour
+      if resolution == :hour
+        return (start.hour..finish.hour).map { |hour| [hour, 0] }
+      end
 
-      (start..finish).to_a
+      # minute resolution
+      times = []
+      (start.hour..finish.hour).each do |hour|
+        finish_min = if hour == finish.hour && finish.min != 0
+                       finish.min
+                     else
+                       59
+                     end
+        (start.min..finish_min).each { |min| times << [hour, min] }
+      end
+      times
     end
 
     def to_time_of_day(number_or_day)
