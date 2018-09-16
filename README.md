@@ -24,27 +24,27 @@ Schedule Mondays and Tuesdays
 ```ruby
 schedule = Blackcal.schedule(weekdays: [:monday, :tuesday])
 schedule.cover?('2019-01-01 19:00')
-# => false
-schedule.cover?('2019-01-02 11:00')
 # => true
+schedule.cover?('2019-01-02 19:00')
+# => false
 ```
 
 Schedule between 6pm and 7am every day
 ```ruby
 schedule = Blackcal.schedule(start_hour: 18, finish_hour: 7)
 schedule.cover?('2019-01-01 19:00')
-# => false
-schedule.cover?('2019-01-01 11:00')
 # => true
+schedule.cover?('2019-01-01 11:00')
+# => false
 ```
 
 Schedule day 15 and 17 of month
 ```ruby
 schedule = Blackcal.schedule(days: [15, 17])
 schedule.cover?('2019-01-15 19:00')
-# => false
-schedule.cover?('2019-01-01 11:00')
 # => true
+schedule.cover?('2019-01-01 11:00')
+# => false
 ```
 
 All options at once - schedule January, Mondays and Tuesdays, day 15-25, between 18pm and 7am
@@ -56,9 +56,9 @@ schedule = Blackcal.schedule(
   days: (15..25).to_a
 )
 schedule.cover?('2019-01-15 19:00')
-# => false
-schedule.cover?('2019-02-01 11:00')
 # => true
+schedule.cover?('2019-02-01 11:00')
+# => false
 ```
 
 Define when the schedule is active
@@ -68,9 +68,9 @@ Blackcal.schedule(start_time: '2018-01-01 11:00', finish_time: '2019-01-01 11:00
 
 Matrix representation
 ```ruby
-schedule = Blackcal.schedule(weekdays: :friday, start_hour: 10, finish_hour: 14)
+schedule = Blackcal.schedule(weekdays: :friday, start_hour: 0, finish_hour: 14)
 schedule.to_matrix(start_date: '2018-09-14', finish_date: '2018-09-16')
-# => [[true, ...], [true, ...]]
+# => [[true, ...], [false, ...]]
 ```
 
 ## Development

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
+require 'time'
 
 RSpec.describe Blackcal::TimeOfDay do
   describe '<=>' do
@@ -16,6 +17,20 @@ RSpec.describe Blackcal::TimeOfDay do
       t2 = described_class.new(14, 59)
 
       expect(t1 == t2).to eq(true)
+    end
+
+    context 'can compare with integer' do
+      it do
+        expect(described_class.new(13) > 10).to eq(true)
+      end
+
+      it do
+        expect(described_class.new(10) < 11).to eq(true)
+      end
+
+      it do
+        expect(described_class.new(10) == 10).to eq(true)
+      end
     end
 
     [

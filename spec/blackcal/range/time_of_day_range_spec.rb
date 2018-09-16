@@ -4,76 +4,79 @@ require 'spec_helper'
 require 'time'
 
 RSpec.describe Blackcal::TimeOfDayRange do
-  describe '#disallowed_hours' do
-    it 'returns a set for better performance' do
-      range = described_class.new(nil, nil)
+  describe '#start' do
+    it 'can handle timestamp' do
+      time = described_class.new(Time.parse('2018-01-01 19:31Z'))
 
-      expect(range.disallowed_hours).to be_a(Set)
+      expect(time.start.hour).to eq(19)
+      expect(time.start.min).to eq(31)
     end
+  end
 
+  describe '#to_a' do
     it 'returns empty when given neither start or finish time' do
       range = described_class.new(nil, nil)
 
-      expect(range.disallowed_hours.to_a).to eq([])
+      expect(range.to_a).to eq([])
     end
 
     it 'returns disallowed_hours when given only start time' do
       range = described_class.new(18, nil)
 
       expected = [18, 19, 20, 21, 22, 23, 0]
-      expect(range.disallowed_hours.to_a).to eq(expected)
+      expect(range.to_a).to eq(expected)
     end
 
     it 'returns disallowed_hours when given only finish time' do
       range = described_class.new(nil, 9)
 
       expected = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-      expect(range.disallowed_hours.to_a).to eq(expected)
+      expect(range.to_a).to eq(expected)
     end
 
     it 'returns disallowed_hours when given start and finish (and start larger than finish)' do # rubocop:disable Metrics/LineLength
       range = described_class.new(18, 5)
 
       expected = [18, 19, 20, 21, 22, 23, 0, 1, 2, 3, 4, 5]
-      expect(range.disallowed_hours.to_a).to eq(expected)
+      expect(range.to_a).to eq(expected)
     end
 
     it 'returns disallowed_hours when given start and finish (and start smaller than finish)' do # rubocop:disable Metrics/LineLength
       range = described_class.new(10, 13)
 
       expected = [10, 11, 12, 13]
-      expect(range.disallowed_hours.to_a).to eq(expected)
+      expect(range.to_a).to eq(expected)
     end
 
     it 'returns disallowed_hours when start and finish are equal' do
       range = described_class.new(9, 9)
 
-      expect(range.disallowed_hours.to_a).to eq([9])
+      expect(range.to_a).to eq([9])
     end
 
     it 'returns disallowed_hours when start is one hour before finish' do
       range = described_class.new(9, 10)
 
-      expect(range.disallowed_hours.to_a).to eq([9, 10])
+      expect(range.to_a).to eq([9, 10])
     end
 
     context 'returns disallowed_hours when arround midnight' do
       it do
         range = described_class.new(23, 0)
 
-        expect(range.disallowed_hours.to_a).to eq([23, 0])
+        expect(range.to_a).to eq([23, 0])
       end
 
       it do
         range = described_class.new(23, 1)
 
-        expect(range.disallowed_hours.to_a).to eq([23, 0, 1])
+        expect(range.to_a).to eq([23, 0, 1])
       end
 
       it do
         range = described_class.new(0, 23)
 
-        expect(range.disallowed_hours.to_a).to eq((0..23).to_a)
+        expect(range.to_a).to eq((0..23).to_a)
       end
     end
   end
@@ -82,6 +85,12 @@ RSpec.describe Blackcal::TimeOfDayRange do
     range = described_class.new(nil, nil)
 
     expect(range.cover?(Time.parse('2019-01-01 18:00'))).to eq(false)
+  end
+
+  it 'returns true when both start and finish and timestamp are equal' do
+    range = described_class.new(10, 10)
+
+    expect(range.cover?(Time.parse('2019-01-01 10:00'))).to eq(true)
   end
 
   context 'start is nil' do
@@ -99,7 +108,7 @@ RSpec.describe Blackcal::TimeOfDayRange do
   end
 
   context 'finish is nil' do
-    it 'returns true start is before timestamp hour' do
+    it 'returns true if start is before timestamp hour' do
       range = described_class.new(10, nil)
 
       expect(range.cover?(Time.parse('2019-01-01 11:00'))).to eq(true)

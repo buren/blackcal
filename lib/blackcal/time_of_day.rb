@@ -20,9 +20,14 @@ module Blackcal
     end
 
     # Compares two time of days
+    # @param [TimeOfDay, Integer] other if a number is passed it will be used as the hour
     # @return [Integer] 1 if greater than, 0 if equal, -1 if less than
     def <=>(other)
-      other_seconds = (other.hour * 60 * 60) + (other.min * 60)
+      other_seconds = if other.is_a?(self.class)
+                        (other.hour * 60 * 60) + (other.min * 60)
+                      else
+                        other * 60 * 60
+                      end
       seconds = (hour * 60 * 60) + (min * 60)
 
       seconds <=> other_seconds

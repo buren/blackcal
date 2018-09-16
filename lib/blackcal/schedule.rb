@@ -15,11 +15,16 @@ module Blackcal
     # Initialize rule
     # @param start_time [Time, Date, String, nil]
     # @param finish_time [Time, Date, String, nil]
-    # @param start_hour [Integer, nil]
-    # @param finish_hour [Integer, nil]
+    # @param start_hour [TimeOfDay, Time, Integer, nil]
+    # @param finish_hour [TimeOfDay, Time, Integer, nil]
     # @param months [Array<String>, Array<Symbol>, String, Symbol, nil]
     # @param weekdays [Array<String>, Array<Symbol>, String, Symbol, nil]
     # @param days [Array<Integer>, Integer, nil]
+    # @see TimeRange#initialize
+    # @see TimeOfDayRange#initialize
+    # @see MonthRange#initialize
+    # @see WeekdayRange#initialize
+    # @see DayRange#initialize
     def initialize(
       start_time: nil,
       finish_time: nil,
@@ -30,11 +35,25 @@ module Blackcal
       # weeks_of_month: nil, # TODO
       days: nil
     )
-      @rule_range = TimeRange.new(parse_time(start_time), parse_time(finish_time)) if start_time || finish_time # rubocop:disable Metrics/LineLength
-      @time_of_day = TimeOfDayRange.new(start_hour, finish_hour) if start_hour || finish_hour # rubocop:disable Metrics/LineLength
-      @months = MonthRange.new(months) if months
-      @weekdays = WeekdayRange.new(weekdays) if weekdays
-      @days = DayRange.new(days) if days
+      if start_time || finish_time
+        @rule_range = TimeRange.new(parse_time(start_time), parse_time(finish_time))
+      end
+
+      if start_hour || finish_hour
+        @time_of_day = TimeOfDayRange.new(start_hour, finish_hour)
+      end
+
+      if months
+        @months = MonthRange.new(months)
+      end
+
+      if weekdays
+        @weekdays = WeekdayRange.new(weekdays)
+      end
+
+      if days
+        @days = DayRange.new(days)
+      end
     end
 
     # Returns true if calendar is open for timestamp
@@ -42,13 +61,12 @@ module Blackcal
     # @return [Boolean]
     def cover?(timestamp)
       timestamp = parse_time(timestamp)
-      return true if @rule_range && !@rule_range.cover?(timestamp)
+      return false if @rule_range && !@rule_range.cover?(timestamp)
 
-      [@months, @weekdays, @days, @time_of_day].each do |range|
-        return true if range && !range.cover?(timestamp)
-      end
+      ranges = [@months, @weekdays, @days, @time_of_day].compact
+      return false if ranges.empty?
 
-      false
+      ranges.all? { |range| range.cover?(timestamp) }
     end
 
     # Returns schedule represented as a matrix
