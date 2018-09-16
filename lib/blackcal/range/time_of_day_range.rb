@@ -42,7 +42,7 @@ module Blackcal
       @finish_time ||= to_time_of_day(@finish || 0)
     end
 
-    # Returns a set with hours that aren't allowed
+    # Returns range as an array
     # @param resolution [Symbol] :hour our :min
     # @return [Array<Array<Integer>>] times
     def to_a(resolution: :hour)

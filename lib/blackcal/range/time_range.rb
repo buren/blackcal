@@ -3,9 +3,13 @@
 module Blackcal
   # Time range
   class TimeRange
+    include Enumerable
+
     attr_reader :start, :finish
 
     # Initialize time range
+    # @param [Time, nil] start_time
+    # @param [Time, nil] finish_time optional
     def initialize(start_time, finish_time = nil)
       @start = start_time
       @finish = finish_time
@@ -22,6 +26,24 @@ module Blackcal
       return true if start > timestamp
 
       false
+    end
+
+    # Returns range as array
+    # @param resolution [Symbol] :hour our :min
+    # @return [Array<Array<Integer>>] times
+    def to_a(resolution: :hour)
+      resolution_multiplier = resolution == :hour ? 60 * 60 : 60
+      time_units = ((start - finish) / resolution_multiplier).abs.to_i
+
+      time_units.times.map do |time_unit|
+        start + ((time_unit + 1) * resolution_multiplier)
+      end
+    end
+
+    # Iterate over range
+    # @param resolution [Symbol] :hour our :min
+    def each(resolution: :hour, &block)
+      to_a(resolution: resolution).each(&block)
     end
   end
 end

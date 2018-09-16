@@ -4,6 +4,69 @@ require 'spec_helper'
 require 'time'
 
 RSpec.describe Blackcal::TimeRange do
+  context 'quacks like an enumerable' do
+    context 'hour resolution' do
+      it 'has #to_a' do
+        start = Time.parse('2018-01-01 09:00Z')
+        finish = Time.parse('2018-01-01 11:00Z')
+        range = described_class.new(start, finish)
+
+        expected = [Time.parse('2018-01-01 10:00Z'), Time.parse('2018-01-01 11:00Z')]
+        expect(range.to_a).to eq(expected)
+      end
+
+      it 'has #to_a (multiple days)' do
+        start = Time.parse('2018-01-01 09:00Z')
+        finish = Time.parse('2018-01-02 11:00Z')
+        range = described_class.new(start, finish)
+
+        first = Time.parse('2018-01-01 10:00Z')
+        last = Time.parse('2018-01-02 11:00Z')
+        expect(range.to_a.first).to eq(first)
+        expect(range.to_a.last).to eq(last)
+        expect(range.to_a.length).to eq(26)
+      end
+
+      it 'has #each' do
+        start = Time.parse('2018-01-01 09:00Z')
+        finish = Time.parse('2018-01-01 11:00Z')
+        range = described_class.new(start, finish)
+
+        expected = [Time.parse('2018-01-01 10:00Z'), Time.parse('2018-01-01 11:00Z')].each
+        range.each do |v|
+          expect(v).to eq(expected.next)
+        end
+      end
+    end
+
+    context 'minute resolution' do
+      it 'has #to_a' do
+        start = Time.parse('2018-01-01 09:00Z')
+        finish = Time.parse('2018-01-02 11:00Z')
+        range = described_class.new(start, finish)
+
+        first = Time.parse('2018-01-01 09:01Z')
+        last = Time.parse('2018-01-02 11:00Z')
+        array = range.to_a(resolution: :min)
+
+        expect(array.first).to eq(first)
+        expect(array.last).to eq(last)
+        expect(array.length).to eq(1560)
+      end
+
+      it 'has #each' do
+        start = Time.parse('2018-01-01 09:00Z')
+        finish = Time.parse('2018-01-01 11:00Z')
+        range = described_class.new(start, finish)
+
+        expected = [Time.parse('2018-01-01 10:00Z'), Time.parse('2018-01-01 11:00Z')].each
+        range.each do |v|
+          expect(v).to eq(expected.next)
+        end
+      end
+    end
+  end
+
   it 'returns false if both start and finish is nil' do
     range = described_class.new(nil)
     expect(range.cover?(Time.parse('2019-02-10'))).to eq(false)
