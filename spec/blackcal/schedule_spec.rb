@@ -40,28 +40,30 @@ RSpec.describe Blackcal::Schedule do
     end
 
     [
-      # expected, timestamp, start_hour, finish_hour, weekdays, days, months
-      [false, '2018-10-15 19:00Z', 18, 12, :monday, 15, :november],
-      [false, '2018-10-15 19:00Z', 18, 12, :tuesday, 15, nil],
-      [true, '2018-10-15 19:00Z', 18, 12, :monday, 15, :october],
-      [false, '2018-09-15 19:00Z', 18, 12, :monday, 15, nil],
-      [true, '2018-09-15 19:00Z', 18, 12, :saturday, 15, nil],
-      [false, '2018-09-15 13:00Z', 18, 12, :saturday, 15, nil],
-      [true, '2018-09-15 19:31Z', 18, Blackcal::TimeOfDay.new(19, 32), :saturday, 15, nil],
-      [false, '2018-09-15 19:31Z', 18, Blackcal::TimeOfDay.new(19, 30), :saturday, 15, nil],
-      [true, '2018-09-15 13:00Z', nil, nil, :saturday, 15, nil],
-      [true, '2018-09-15 13:00Z', nil, nil, :saturday, nil, nil],
-      [false, '2018-09-15 13:00Z', nil, nil, :monday, nil, nil],
-      [false, '2018-09-15 13:00Z', nil, nil, :monday, 15, nil],
-      [false, '2018-09-15 13:00Z', nil, nil, :monday, 15, nil],
-      [false, '2018-09-15 13:00Z', 18, 12, :saturday, nil, nil],
-      [true, '2018-09-15 13:00Z', 10, 18, :saturday, nil, nil],
-      [true, '2018-09-15 13:00Z', nil, nil, nil, 15, nil],
-      [false, '2018-09-15 13:00Z', nil, nil, nil, 17, nil],
-      [false, '2018-09-15 13:00Z', 10, 14, nil, 17, nil],
-      [true, '2018-09-15 13:00Z', 10, 14, nil, nil, nil],
+      # expected, timestamp, start_hour, finish_hour, weekdays, days, months, weeks_of_month
+      [false, '2018-10-15 19:00Z', 18, 12, :monday, 15, :november, nil],
+      [false, '2018-10-15 19:00Z', 18, 12, :tuesday, 15, nil, nil],
+      [true, '2018-10-15 19:00Z', 18, 12, :monday, 15, :october, nil],
+      [true, '2018-09-15 19:00Z', 18, 12, nil, 15, :september, 2],
+      [false, '2018-09-15 19:00Z', 18, 12, nil, 15, :september, 4],
+      [false, '2018-09-15 19:00Z', 18, 12, :monday, 15, nil, nil],
+      [true, '2018-09-15 19:00Z', 18, 12, :saturday, 15, nil, nil],
+      [false, '2018-09-15 13:00Z', 18, 12, :saturday, 15, nil, nil],
+      [true, '2018-09-15 19:31Z', 18, Blackcal::TimeOfDay.new(19, 32), :saturday, 15, nil, nil],
+      [false, '2018-09-15 19:31Z', 18, Blackcal::TimeOfDay.new(19, 30), :saturday, 15, nil, nil],
+      [true, '2018-09-15 13:00Z', nil, nil, :saturday, 15, nil, nil],
+      [true, '2018-09-15 13:00Z', nil, nil, :saturday, nil, nil, nil],
+      [false, '2018-09-15 13:00Z', nil, nil, :monday, nil, nil, nil],
+      [false, '2018-09-15 13:00Z', nil, nil, :monday, 15, nil, nil],
+      [false, '2018-09-15 13:00Z', nil, nil, :monday, 15, nil, nil],
+      [false, '2018-09-15 13:00Z', 18, 12, :saturday, nil, nil, nil],
+      [true, '2018-09-15 13:00Z', 10, 18, :saturday, nil, nil, nil],
+      [true, '2018-09-15 13:00Z', nil, nil, nil, 15, nil, nil],
+      [false, '2018-09-15 13:00Z', nil, nil, nil, 17, nil, nil],
+      [false, '2018-09-15 13:00Z', 10, 14, nil, 17, nil, nil],
+      [true, '2018-09-15 13:00Z', 10, 14, nil, nil, nil, nil],
     ].each do |data|
-      expected, timestamp, start_hour, finish_hour, weekdays, days, months = data
+      expected, timestamp, start_hour, finish_hour, weekdays, days, months, weeks_of_month = data
 
       it "returns #{expected}" do
         schedule = described_class.new(
@@ -69,6 +71,7 @@ RSpec.describe Blackcal::Schedule do
           start_hour: start_hour,
           finish_hour: finish_hour,
           months: months,
+          weeks_of_month: weeks_of_month,
           weekdays: weekdays,
           days: days
         )

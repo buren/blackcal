@@ -47,17 +47,18 @@ schedule.cover?('2019-01-01 11:00')
 # => false
 ```
 
-All options at once - schedule January, Mondays and Tuesdays, day 15-25, between 18pm and 7am
+All options at once - schedule January, 3rd week, Mondays and Tuesdays, day 15-25, between 18pm and 7am
 ```ruby
 schedule = Blackcal.schedule(
   months: [:january],
+  weeks_of_month: [3],
   weekdays: [:monday, :tuesday],
   start_hour: 18, finish_hour: 7,
   days: (15..25).to_a
 )
-schedule.cover?('2019-01-15 19:00')
+schedule.cover?('2018-01-16 06:00')
 # => true
-schedule.cover?('2019-02-01 11:00')
+schedule.cover?('2018-01-16 08:00')
 # => false
 ```
 
