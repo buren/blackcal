@@ -47,6 +47,15 @@ schedule.cover?('2019-01-01 11:00')
 # => false
 ```
 
+Schedule first and third week of every month
+```ruby
+schedule = Blackcal.schedule(weeks_of_month: [1, 3])
+schedule.cover?('2019-01-03 19:00')
+# => true
+schedule.cover?('2019-01-10 19:00')
+# => false
+```
+
 All options at once - schedule January, 3rd week, Mondays and Tuesdays, day 15-25, between 18pm and 7am
 ```ruby
 schedule = Blackcal.schedule(
