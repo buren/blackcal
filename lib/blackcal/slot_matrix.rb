@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
 module Blackcal
+  # Slot matrix
   class SlotMatrix
+    # Initialize slot matrix
+    # @param [Integer] slots max elements in each slot
     def initialize(slots)
       @matrix = [[]]
       @slots = slots

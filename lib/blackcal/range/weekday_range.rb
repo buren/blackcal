@@ -3,6 +3,7 @@
 module Blackcal
   # Weekday range
   class WeekdayRange
+    # Map weekday name to number
     WEEKDAY_MAP = {
       sunday: 0,
       monday: 1,

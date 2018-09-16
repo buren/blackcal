@@ -3,6 +3,7 @@
 module Blackcal
   # Month range
   class MonthRange
+    # Map month name to number
     MONTH_MAP = {
       january: 1,
       february: 2,
