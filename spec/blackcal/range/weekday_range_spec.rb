@@ -4,6 +4,23 @@ require 'spec_helper'
 require 'time'
 
 RSpec.describe Blackcal::WeekdayRange do
+  context 'quacks like an enumerable' do
+    it 'has #to_a' do
+      range = described_class.new(:monday)
+
+      expect(range.to_a).to eq([:monday])
+    end
+
+    it 'has #each' do
+      range = described_class.new([:monday, :wednesday])
+
+      expected = [:monday, :wednesday].each
+      range.each do |v|
+        expect(v).to eq(expected.next)
+      end
+    end
+  end
+
   describe '#cover?' do
     it 'returns false if weekdays are nil' do
       expect(described_class.new(nil).cover?(Time.parse('2018-01-01'))).to eq(false)

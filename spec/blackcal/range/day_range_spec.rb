@@ -4,6 +4,23 @@ require 'spec_helper'
 require 'time'
 
 RSpec.describe Blackcal::DayRange do
+  context 'quacks like an enumerable' do
+    it 'has #to_a' do
+      range = described_class.new(1)
+
+      expect(range.to_a).to eq([1])
+    end
+
+    it 'has #each' do
+      range = described_class.new([1, 2])
+
+      expected = [1, 2].each
+      range.each do |v|
+        expect(v).to eq(expected.next)
+      end
+    end
+  end
+
   describe '#cover?' do
     it 'returns false if numbers are nil' do
       expect(described_class.new(nil).cover?(Time.parse('2018-01-01'))).to eq(false)

@@ -3,6 +3,8 @@
 module Blackcal
   # Month range
   class MonthRange
+    include Enumerable
+
     # Map month name to number
     MONTH_MAP = {
       january: 1,
@@ -40,6 +42,15 @@ module Blackcal
       months.any? do |month|
         MONTH_MAP.fetch(month) == timestamp.month
       end
+    end
+
+    # @return [Array<Symbol>] months in range
+    alias_method :to_a, :months
+
+    # Iterate over range
+    # @see #to_a
+    def each(&block)
+      to_a.each(&block)
     end
   end
 end

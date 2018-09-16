@@ -5,6 +5,8 @@ require 'blackcal/time_of_day'
 module Blackcal
   # Time of day range
   class TimeOfDayRange
+    include Enumerable
+
     # Initialize time of day range
     # @param [TimeOfDay, Time, Integer, nil] start
     # @param [TimeOfDay, Time, Integer, nil] finish
@@ -42,19 +44,22 @@ module Blackcal
 
     # Returns a set with hours that aren't allowed
     # @param resolution [Symbol] :hour our :min
-    # @return [Set<Integer>]
+    # @return [Array<Array<Integer>>] times
     def to_a(resolution: :hour)
       return [] if @start.nil? && @finish.nil?
-      return @disallowed_hours if @disallowed_hours
 
-      @disallowed_hours = begin
-        if finish < start
-          to_time_array(start, TimeOfDay.new(23), resolution) +
-            to_time_array(TimeOfDay.new(0), finish, resolution)
-        else
-          to_time_array(start, finish, resolution)
-        end
+      if finish < start
+        to_time_array(start, TimeOfDay.new(23), resolution) +
+          to_time_array(TimeOfDay.new(0), finish, resolution)
+      else
+        to_time_array(start, finish, resolution)
       end
+    end
+
+    # Iterate over range
+    # @param resolution [Symbol] :hour our :min
+    def each(resolution: :hour, &block)
+      to_a(resolution: resolution).each(&block)
     end
 
     private

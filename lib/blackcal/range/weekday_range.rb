@@ -3,6 +3,8 @@
 module Blackcal
   # Weekday range
   class WeekdayRange
+    include Enumerable
+
     # Map weekday name to number
     WEEKDAY_MAP = {
       sunday: 0,
@@ -35,6 +37,15 @@ module Blackcal
       weekdays.any? do |weekday|
         WEEKDAY_MAP.fetch(weekday) == timestamp.wday
       end
+    end
+
+    # @return [Array<Symbol>] weekdays in range
+    alias_method :to_a, :weekdays
+
+    # Iterate over range
+    # @see #to_a
+    def each(&block)
+      to_a.each(&block)
     end
   end
 end

@@ -25,6 +25,17 @@ RSpec.describe Blackcal::TimeOfDayRange do
       expect(range.to_a(resolution: :min)).to eq(expected)
     end
 
+    context 'quacks like an enumerable' do
+      it 'can iterate' do
+        range = described_class.new(18, 18)
+
+        expected = (0..59).map { |min| [18, min] }.each
+        range.each(resolution: :min) do |time|
+          expect(time).to eq(expected.next)
+        end
+      end
+    end
+
     it 'returns disallowed mins for multiple hour' do
       range = described_class.new(Blackcal::TimeOfDay.new(23, 4), Blackcal::TimeOfDay.new(1, 31))
       expected = []
