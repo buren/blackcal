@@ -1,5 +1,9 @@
 # Change Log
 
+# v0.4.0
+
+* Add support for weeks of month - [PR #6](https://github.com/buren/blackcal/pull/6)
+
 # v0.3.0
 
 * Minute level resolution support
