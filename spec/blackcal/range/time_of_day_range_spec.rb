@@ -4,6 +4,80 @@ require 'spec_helper'
 require 'time'
 
 RSpec.describe Blackcal::TimeOfDayRange do
+  describe '#disallowed_hours' do
+    it 'returns a set for better performance' do
+      range = described_class.new(nil, nil)
+
+      expect(range.disallowed_hours).to be_a(Set)
+    end
+
+    it 'returns empty when given neither start or finish time' do
+      range = described_class.new(nil, nil)
+
+      expect(range.disallowed_hours.to_a).to eq([])
+    end
+
+    it 'returns disallowed_hours when given only start time' do
+      range = described_class.new(18, nil)
+
+      expected = [18, 19, 20, 21, 22, 23, 0]
+      expect(range.disallowed_hours.to_a).to eq(expected)
+    end
+
+    it 'returns disallowed_hours when given only finish time' do
+      range = described_class.new(nil, 9)
+
+      expected = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+      expect(range.disallowed_hours.to_a).to eq(expected)
+    end
+
+    it 'returns disallowed_hours when given start and finish (and start larger than finish)' do # rubocop:disable Metrics/LineLength
+      range = described_class.new(18, 5)
+
+      expected = [18, 19, 20, 21, 22, 23, 0, 1, 2, 3, 4, 5]
+      expect(range.disallowed_hours.to_a).to eq(expected)
+    end
+
+    it 'returns disallowed_hours when given start and finish (and start smaller than finish)' do # rubocop:disable Metrics/LineLength
+      range = described_class.new(10, 13)
+
+      expected = [10, 11, 12, 13]
+      expect(range.disallowed_hours.to_a).to eq(expected)
+    end
+
+    it 'returns disallowed_hours when start and finish are equal' do
+      range = described_class.new(9, 9)
+
+      expect(range.disallowed_hours.to_a).to eq([9])
+    end
+
+    it 'returns disallowed_hours when start is one hour before finish' do
+      range = described_class.new(9, 10)
+
+      expect(range.disallowed_hours.to_a).to eq([9, 10])
+    end
+
+    context 'returns disallowed_hours when arround midnight' do
+      it do
+        range = described_class.new(23, 0)
+
+        expect(range.disallowed_hours.to_a).to eq([23, 0])
+      end
+
+      it do
+        range = described_class.new(23, 1)
+
+        expect(range.disallowed_hours.to_a).to eq([23, 0, 1])
+      end
+
+      it do
+        range = described_class.new(0, 23)
+
+        expect(range.disallowed_hours.to_a).to eq((0..23).to_a)
+      end
+    end
+  end
+
   it 'returns false when both start and finish is nil' do
     range = described_class.new(nil, nil)
 
