@@ -30,9 +30,9 @@ RSpec.describe Blackcal::WeekdayRange do
     end
 
     it 'has #each' do
-      range = described_class.new([:monday, :wednesday])
+      range = described_class.new(%i(monday wednesday))
 
-      expected = [:monday, :wednesday].each
+      expected = %i(monday wednesday).each
       range.each do |v|
         expect(v).to eq(expected.next)
       end

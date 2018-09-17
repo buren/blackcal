@@ -34,11 +34,12 @@ module Blackcal
     # @example
     #   MonthRange.new([:december, :january])
     def initialize(months)
-      if months
-        @months = Array(months).map do |month|
-          next MONTH_INVERT_MAP.fetch(month) if month.is_a?(Integer)
-          month.downcase.to_sym
-        end
+      return unless months
+
+      @months = Array(months).map do |month|
+        next MONTH_INVERT_MAP.fetch(month) if month.is_a?(Integer)
+
+        month.downcase.to_sym
       end
     end
 

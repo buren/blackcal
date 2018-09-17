@@ -5,14 +5,14 @@ require 'time'
 
 RSpec.describe Blackcal::TimeOfDay do
   describe '<=>' do
-    it "returns true with greater than or equal" do
+    it 'returns true with greater than or equal' do
       t1 = described_class.new(14, 59)
       t2 = described_class.new(14, 59)
 
       expect(t1 >= t2).to eq(true)
     end
 
-    it "returns true when equal" do
+    it 'returns true when equal' do
       t1 = described_class.new(14, 59)
       t2 = described_class.new(14, 59)
 

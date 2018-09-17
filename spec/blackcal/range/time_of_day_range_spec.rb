@@ -65,14 +65,14 @@ RSpec.describe Blackcal::TimeOfDayRange do
       expect(range.to_a).to eq(expected)
     end
 
-    it 'returns disallowed_hours when given start and finish (and start larger than finish)' do # rubocop:disable Metrics/LineLength
+    it 'returns disallowed_hours when given start and finish (and start larger than finish)' do
       range = described_class.new(18, 5)
 
       expected = zero_zip([18, 19, 20, 21, 22, 23, 0, 1, 2, 3, 4, 5])
       expect(range.to_a).to eq(expected)
     end
 
-    it 'returns disallowed_hours when given start and finish (and start smaller than finish)' do # rubocop:disable Metrics/LineLength
+    it 'returns disallowed_hours when given start and finish (and start smaller than finish)' do
       range = described_class.new(10, 13)
 
       expected = zero_zip([10, 11, 12, 13])

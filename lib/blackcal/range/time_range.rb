@@ -35,7 +35,7 @@ module Blackcal
       resolution_multiplier = resolution == :hour ? 60 * 60 : 60
       time_units = ((start - finish) / resolution_multiplier).abs.to_i
 
-      time_units.times.map do |time_unit|
+      Array.new(time_units) do |time_unit|
         start + (time_unit * resolution_multiplier)
       end
     end

@@ -97,6 +97,7 @@ module Blackcal
 
     def parse_time(time)
       return Time.parse(time) if time.is_a?(String)
+
       time
     end
   end

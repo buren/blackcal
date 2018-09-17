@@ -29,11 +29,12 @@ module Blackcal
     # @example
     #   WeekdayRange.new([:monday, :thursday])
     def initialize(weekdays)
-      if weekdays
-        @weekdays = Array(weekdays).map do |week|
-          next WEEKDAY_INVERT_MAP.fetch(week) if week.is_a?(Integer)
-          week.downcase.to_sym
-        end
+      return unless weekdays
+
+      @weekdays = Array(weekdays).map do |week|
+        next WEEKDAY_INVERT_MAP.fetch(week) if week.is_a?(Integer)
+
+        week.downcase.to_sym
       end
     end
 

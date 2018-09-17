@@ -24,9 +24,9 @@ RSpec.describe Blackcal::MonthRange do
     end
 
     it 'has #each' do
-      range = described_class.new([:january, :february])
+      range = described_class.new(%i(january february))
 
-      expected = [:january, :february].each
+      expected = %i(january february).each
       range.each do |v|
         expect(v).to eq(expected.next)
       end
