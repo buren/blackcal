@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Blackcal
+  # Time utils module
   module TimeUtil
     # Returns the week of month
     # @return [Integer] week of month
