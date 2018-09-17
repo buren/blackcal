@@ -16,17 +16,25 @@ module Blackcal
       saturday: 6,
     }.freeze
 
+    # Map weekday number to name
+    WEEKDAY_INVERT_MAP = WEEKDAY_MAP.invert.freeze
+
     # @return [Array<Symbol>] weekdays in range
     attr_reader :weekdays
 
     # Initialize weekday range
-    # @param [Array<String>, Array<Symbol>, String, Symbol, nil] weekdays
+    # @param [Array<String>, Array<Symbol>, Array<Integer>, String, Symbol, Integer, nil] weekdays
     # @example
     #   WeekdayRange.new(:monday)
     # @example
     #   WeekdayRange.new([:monday, :thursday])
     def initialize(weekdays)
-      @weekdays = Array(weekdays).map(&:to_sym) if weekdays
+      if weekdays
+        @weekdays = Array(weekdays).map do |week|
+          next WEEKDAY_INVERT_MAP.fetch(week) if week.is_a?(Integer)
+          week.downcase.to_sym
+        end
+      end
     end
 
     # Returns true if it covers timestamp

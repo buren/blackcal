@@ -21,17 +21,25 @@ module Blackcal
       december: 12,
     }.freeze
 
+    # Map month number to name
+    MONTH_INVERT_MAP = MONTH_MAP.invert.freeze
+
     # @return [Array<Symbol>] months in range
     attr_reader :months
 
     # Initialize month range
-    # @param [Array<String>, Array<Symbol>, String, Symbol, nil] months
+    # @param [Array<String>, Array<Symbol>, Array<Integer>, String, Symbol, Integer, nil] months
     # @example
     #   MonthRange.new(:january)
     # @example
     #   MonthRange.new([:december, :january])
     def initialize(months)
-      @months = Array(months).map(&:to_sym) if months
+      if months
+        @months = Array(months).map do |month|
+          next MONTH_INVERT_MAP.fetch(month) if month.is_a?(Integer)
+          month.downcase.to_sym
+        end
+      end
     end
 
     # Returns true if it covers timestamp

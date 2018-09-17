@@ -4,6 +4,24 @@ require 'spec_helper'
 require 'time'
 
 RSpec.describe Blackcal::WeekdayRange do
+  describe '#initialize' do
+    it 'can handle weekday number 0' do
+      range = described_class.new(0)
+
+      expect(range.weekdays).to eq([:sunday])
+    end
+
+    it 'can handle weekday numbers' do
+      range = described_class.new(2)
+
+      expect(range.weekdays).to eq([:tuesday])
+    end
+
+    it 'raises KeyError for unknown weekday numbers' do
+      expect { described_class.new(13) }.to raise_error(KeyError)
+    end
+  end
+
   context 'quacks like an enumerable' do
     it 'has #to_a' do
       range = described_class.new(:monday)

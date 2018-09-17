@@ -4,6 +4,18 @@ require 'spec_helper'
 require 'time'
 
 RSpec.describe Blackcal::MonthRange do
+  describe '#initialize' do
+    it 'can handle month numbers' do
+      range = described_class.new(1)
+
+      expect(range.months).to eq([:january])
+    end
+
+    it 'raises KeyError for unknown month numbers' do
+      expect { described_class.new(13) }.to raise_error(KeyError)
+    end
+  end
+
   context 'quacks like an enumerable' do
     it 'has #to_a' do
       range = described_class.new(:january)
