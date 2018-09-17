@@ -2,7 +2,7 @@
 
 Create blacklist rules for calendars with ease. Supports recurring rules for certain weekdays, date numbers, hour of day.
 
-Born out of the idea to comparing schedules using matrix operations. This gem makes it easy to see whether if a time is covered by a certain schedule and generate a matrix representing what the schedule covers (hour our minute resolution).
+Born from the idea of comparing schedules using matrix operations. This gem makes it easy to see whether if a time is covered by a certain schedule and generate a matrix representing what the schedule covers (hour our minute resolution).
 
 ## Installation
 
