@@ -29,8 +29,7 @@ module Blackcal
   # @see Schedule#initialize
   # @see Builder::dsl
   def self.schedule(**keyword_args, &block)
-    schedule_args = keyword_args
-    schedule_args.merge!(Builder.dsl(&block).to_h) if block
-    Schedule.new(schedule_args)
+    builder = Builder.dsl(keyword_args, &block)
+    Schedule.new(builder.to_h)
   end
 end

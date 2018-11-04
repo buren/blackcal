@@ -10,8 +10,8 @@ module Blackcal
     #     months [:january]
     #     days 15..25
     #   end
-    def self.dsl(&block)
-      new.tap { |b| b.instance_eval(&block) }
+    def self.dsl(data = {}, &block)
+      new(data, &block)
     end
 
     # Returns a new instance of Builder
@@ -24,8 +24,9 @@ module Blackcal
     # @option weekdays [Array<String>, Array<Symbol>, String, Symbol, nil]
     # @option weeks_of_month [Array<Integer>, nil]
     # @option days [Array<Integer>, Integer, nil]
-    def initialize(data = {})
+    def initialize(data = {}, &block)
       @data = data || {}
+      self.instance_eval(&block) if block
     end
 
     # @param [Time, Date, String, nil] start_time
