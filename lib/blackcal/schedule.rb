@@ -34,8 +34,8 @@ module Blackcal
     # Initialize schedule
     # @param start_time [Time, Date, String, nil]
     # @param finish_time [Time, Date, String, nil]
-    # @param start_time_of_day [TimeOfDay, Time, Integer, nil]
-    # @param finish_hour_of_day [TimeOfDay, Time, Integer, nil]
+    # @param start_time_of_day [TimeOfDay, nil]
+    # @param finish_hour_of_day [TimeOfDay, nil]
     # @param months [Array<String>, Array<Symbol>, String, Symbol, nil]
     # @param weekdays [Array<String>, Array<Symbol>, String, Symbol, nil]
     # @param weeks_of_month [Array<Integer>, nil]
@@ -56,7 +56,7 @@ module Blackcal
       days: nil
     )
       if start_time || finish_time
-        @time_range = TimeRange.new(parse_time(start_time), parse_time(finish_time))
+        @time_range = TimeRange.new(start_time, finish_time)
       end
 
       if start_time_of_day || finish_hour_of_day
@@ -84,7 +84,7 @@ module Blackcal
     # @param [Time] timestamp
     # @return [Boolean]
     def cover?(timestamp)
-      timestamp = parse_time(timestamp)
+      timestamp = TimeUtil.parse(timestamp)
       return false if @time_range && !@time_range.cover?(timestamp)
 
       ranges = [@months, @weekdays, @days, @time_of_day, @weeks_of_month].compact
@@ -98,8 +98,8 @@ module Blackcal
     # @param finish_date [Date]
     # @return [Array<Array<Boolean>>]
     def to_matrix(start_date:, finish_date:, resolution: :hour)
-      start_time = parse_time(start_date).to_time
-      finish_time = parse_time(finish_date).to_time
+      start_time = TimeUtil.parse(start_date).to_time
+      finish_time = TimeUtil.parse(finish_date).to_time
       slots = resolution == :hour ? 24 : 24 * 60
       matrix = SlotMatrix.new(slots)
 
@@ -110,14 +110,6 @@ module Blackcal
       end
 
       matrix.data
-    end
-
-    private
-
-    def parse_time(time)
-      return Time.parse(time) if time.is_a?(String)
-
-      time
     end
   end
 end

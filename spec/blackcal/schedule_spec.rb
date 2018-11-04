@@ -12,7 +12,7 @@ RSpec.describe Blackcal::Schedule do
     end
 
     it 'given only start date covers nothing' do
-      schedule = described_class.new(start_time: '2000-01-01')
+      schedule = described_class.new(start_time: Time.parse('2000-01-01'))
 
       expect(schedule.cover?('2019-01-01 19:00')).to eq(false)
     end
@@ -75,7 +75,7 @@ RSpec.describe Blackcal::Schedule do
 
       it "returns #{expected}" do
         schedule = described_class.new(
-          start_time: '2000-01-01',
+          start_time: Time.parse('2000-01-01'),
           start_time_of_day: start_time_of_day,
           finish_hour_of_day: finish_hour_of_day,
           months: months,
@@ -112,8 +112,8 @@ RSpec.describe Blackcal::Schedule do
         finish_hour_of_day: Blackcal::TimeOfDay.new(0, 2)
       )
       matrix = schedule.to_matrix(
-        start_date: '2018-09-14',
-        finish_date: '2018-09-15',
+        start_date: Time.parse('2018-09-14'),
+        finish_date: Time.parse('2018-09-15'),
         resolution: :min
       )
 

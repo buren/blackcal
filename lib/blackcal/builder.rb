@@ -31,22 +31,24 @@ module Blackcal
 
     # @param [Time, Date, String, nil] start_time
     def start_time(start_time)
-      @data[:start_time] = start_time
+      @data[:start_time] = TimeUtil.parse(start_time)
     end
 
     # @param [Time, Date, String, nil] finish_time
     def finish_time(finish_time)
-      @data[:finish_time] = finish_time
+      @data[:finish_time] = TimeUtil.parse(finish_time)
     end
 
     # @param [TimeOfDay, Time, Integer, nil] start_time_of_day
-    def start_time_of_day(start_time_of_day)
-      @data[:start_time_of_day] = start_time_of_day
+    # @param [Integer, nil] min minute
+    def start_time_of_day(start_time_of_day, min = nil)
+      @data[:start_time_of_day] = TimeUtil.time_of_day(start_time_of_day, min)
     end
 
     # @param [TimeOfDay, Time, Integer, nil] finish_hour_of_day
-    def finish_hour_of_day(finish_hour_of_day)
-      @data[:finish_hour_of_day] = finish_hour_of_day
+    # @param [Integer, nil] min minute
+    def finish_hour_of_day(finish_hour_of_day, min = nil)
+      @data[:finish_hour_of_day] = TimeUtil.time_of_day(finish_hour_of_day, min)
     end
 
     # @param [Array<String>, Array<Symbol>, String, Symbol, nil] months

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'blackcal/time_of_day'
+
 module Blackcal
   # Time utils module
   module TimeUtil
@@ -26,6 +28,21 @@ module Blackcal
 
       month_week_index = date.strftime(week_start_format).to_i - week_of_month_start_num
       month_week_index + 1 # Add 1 so that first week is 1 and not 0
+    end
+
+    def self.time_of_day(number_or_day, min = nil)
+      return unless number_or_day
+      return number_or_day if number_or_day.is_a?(TimeOfDay)
+
+      if number_or_day.is_a?(Time)
+        return TimeOfDay.new(number_or_day.hour, number_or_day.min)
+      end
+
+      if min
+        return TimeOfDay.new(number_or_day, min)
+      end
+
+      TimeOfDay.new(number_or_day)
     end
   end
 end
