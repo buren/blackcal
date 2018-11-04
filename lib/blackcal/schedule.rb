@@ -13,6 +13,24 @@ require 'blackcal/slot_matrix'
 module Blackcal
   # Represents a schedule
   class Schedule
+    # @return [TimeRange] the time the schedule is active
+    attr_reader :time_range
+
+    # @return [MonthRange] months when this schedule is active
+    attr_reader :months
+
+    # @return [TimeOfDay] time of day when this schedule is active
+    attr_reader :time_of_day
+
+    # @return [WeekOfMonthRange] weeks of month when this schedule is active
+    attr_reader :weeks_of_month
+
+    # @return [DayRange] days when this schedule is active
+    attr_reader :days
+
+    # @return [WeekdayRange] weekdays when this schedule is active
+    attr_reader :weekdays
+
     # Initialize rule
     # @param start_time [Time, Date, String, nil]
     # @param finish_time [Time, Date, String, nil]
@@ -20,6 +38,7 @@ module Blackcal
     # @param finish_hour_of_day [TimeOfDay, Time, Integer, nil]
     # @param months [Array<String>, Array<Symbol>, String, Symbol, nil]
     # @param weekdays [Array<String>, Array<Symbol>, String, Symbol, nil]
+    # @param weeks_of_month [Array<Integer>, nil]
     # @param days [Array<Integer>, Integer, nil]
     # @see TimeRange#initialize
     # @see TimeOfDayRange#initialize
@@ -37,7 +56,7 @@ module Blackcal
       days: nil
     )
       if start_time || finish_time
-        @rule_range = TimeRange.new(parse_time(start_time), parse_time(finish_time))
+        @time_range = TimeRange.new(parse_time(start_time), parse_time(finish_time))
       end
 
       if start_time_of_day || finish_hour_of_day
@@ -66,7 +85,7 @@ module Blackcal
     # @return [Boolean]
     def cover?(timestamp)
       timestamp = parse_time(timestamp)
-      return false if @rule_range && !@rule_range.cover?(timestamp)
+      return false if @time_range && !@time_range.cover?(timestamp)
 
       ranges = [@months, @weekdays, @days, @time_of_day, @weeks_of_month].compact
       return false if ranges.empty?
