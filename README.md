@@ -76,7 +76,7 @@ schedule = Blackcal.schedule(
   weeks_of_month: [3],
   weekdays: [:monday, :tuesday],
   start_time_of_day: 18, finish_hour_of_day: 7,
-  days: (15..25).to_a
+  days: 15..25
 )
 schedule.cover?('2018-01-16 06:00')
 # => true
@@ -85,6 +85,23 @@ schedule.cover?('2018-01-16 08:00')
 ```
 
 _Note_: `#cover?` supports `String` and `Time` objects. `start_time_of_day` and `finish_hour_of_day` supports `Blackcal::TimeOfDay`, `Time` and `Integer` objects.
+
+Builder pattern
+```ruby
+Blackcal.schedule do
+  months [:january]
+  weeks_of_month [3]
+  weekdays [:monday, :tuesday]
+  start_time_of_day 18
+  finish_hour_of_day 7
+  days 15..25
+end
+# you can, though not recommended, mix arguments with the
+# builder data from the builder will override the arguments
+Blackcal.schedule(days: [14, 21]) do
+  months [:january]
+end
+```
 
 Matrix representation
 ```ruby
