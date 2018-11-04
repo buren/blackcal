@@ -54,34 +54,28 @@ module Blackcal
 
     # @param [Array<String>, Array<Symbol>, String, Symbol, nil] months
     def months(*months)
-      @data[:months] = flat_array(months)
+      @data[:months] = ArrayUtil.flatten(months)
     end
 
     # @param [Array<String>, Array<Symbol>, String, Symbol, nil] weekdays
     def weekdays(*weekdays)
-      @data[:weekdays] = flat_array(weekdays)
+      @data[:weekdays] = ArrayUtil.flatten(weekdays)
     end
 
     # @param [Array<Integer>, nil] weeks_of_month
     def weeks_of_month(*weeks_of_month)
-      @data[:weeks_of_month] = flat_array(weeks_of_month)
+      @data[:weeks_of_month] = ArrayUtil.flatten(weeks_of_month)
     end
 
     # @param days [Array<Integer>, Integer, nil]
     def days(*days)
-      @data[:days] = flat_array(days)
+      @data[:days] = ArrayUtil.flatten(days)
     end
 
     # The builder represented as a hash
     # @return [Hash]
     def to_h
       @data
-    end
-
-    private
-
-    def flat_array(array)
-      Array(array).flatten(1)
     end
   end
 end
