@@ -31,7 +31,7 @@ module Blackcal
     # @return [WeekdayRange] weekdays when this schedule is active
     attr_reader :weekdays
 
-    # Initialize rule
+    # Initialize schedule
     # @param start_time [Time, Date, String, nil]
     # @param finish_time [Time, Date, String, nil]
     # @param start_time_of_day [TimeOfDay, Time, Integer, nil]

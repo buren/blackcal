@@ -1,14 +1,15 @@
 # frozen_string_literal: true
 
 module Blackcal
+  # Builder provides a DSL for schedule options
   class Builder
     # Enables a DSL for building schedule options
     # @return [Builder]
     # @example
-    # Blackcal.dsl do
-    #   months [:january]
-    #   days (15..25).to_a
-    # end
+    #   Blackcal.dsl do
+    #     months [:january]
+    #     days 15..25
+    #   end
     def self.dsl(&block)
       new.tap { |b| b.instance_eval(&block) }
     end
