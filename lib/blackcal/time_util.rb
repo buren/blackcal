@@ -3,6 +3,15 @@
 module Blackcal
   # Time utils module
   module TimeUtil
+    # @param [String, Time] time
+    # @return [Time] tine as time
+    # @see [Time::parse]
+    def self.parse(time)
+      return Time.parse(time) if time.is_a?(String)
+
+      time
+    end
+
     # Returns the week of month
     # @return [Integer] week of month
     # @see https://stackoverflow.com/a/30470158/955366

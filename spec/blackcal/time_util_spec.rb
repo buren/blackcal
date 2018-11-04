@@ -4,7 +4,22 @@ require 'spec_helper'
 require 'time'
 
 RSpec.describe Blackcal::TimeUtil do
-  describe '#week_of_month' do
+  describe '::parse' do
+    [
+      # input, expected
+      ['2019-01-01 10:00', Time.parse('2019-01-01 10:00')],
+      [Time.parse('2019-01-01 10:00'), Time.parse('2019-01-01 10:00')],
+      [nil, nil],
+    ].each do |data|
+      input, expected = data
+
+      it 'returns time presented as Time object' do
+        expect(described_class.parse(input)).to eq(expected)
+      end
+    end
+  end
+
+  describe '::week_of_month' do
     [
       # expected, date, start_of_week
       [3, '2018-09-16', :sunday],
