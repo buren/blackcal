@@ -41,6 +41,10 @@ RSpec.describe Blackcal::Builder do
       expect(builder.to_h[:start_time_of_day]).to be_a(Blackcal::TimeOfDay)
       expect(builder.to_h[:start_time_of_day]).to eq(13)
     end
+
+    it 'can be initialized with data' do
+      expect { described_class.new(wat: nil) }.to raise_error(NoMethodError)
+    end
   end
 
   describe '#start_time' do
