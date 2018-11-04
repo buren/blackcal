@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'blackcal/time_util'
+require 'blackcal/array_util'
 
 module Blackcal
   # Week of month range
@@ -17,7 +18,7 @@ module Blackcal
     # @example
     #   WeekOfMonthRange.new([1, 2])
     def initialize(numbers)
-      @numbers = Array(numbers) if numbers
+      @numbers = ArrayUtil.flatten(numbers) if numbers
     end
 
     # Returns true if it covers timestamp

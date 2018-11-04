@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'blackcal/array_util'
+
 module Blackcal
   # Day range
   class DayRange
@@ -17,12 +19,7 @@ module Blackcal
     # @example
     #   DayRange.new([9..10, 13..14])
     def initialize(numbers)
-      @numbers = if numbers
-                   Array(numbers).map do |arg|
-                     next arg.to_a if arg.respond_to?(:to_a)
-                     arg
-                   end.flatten(1)
-                 end
+      @numbers = ArrayUtil.flatten(numbers) if numbers
     end
 
     # Returns true if it covers timestamp
