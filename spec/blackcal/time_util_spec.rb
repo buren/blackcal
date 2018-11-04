@@ -36,4 +36,21 @@ RSpec.describe Blackcal::TimeUtil do
       end
     end
   end
+
+  describe 'time_of_day' do
+    [
+      # hour, min, expected
+      [13, nil, Blackcal::TimeOfDay.new(13)],
+      [13, 42, Blackcal::TimeOfDay.new(13, 42)],
+      ['2019-01-01 13:42', nil, Blackcal::TimeOfDay.new(13, 42)],
+      [Time.parse('2019-01-01 13:42'), nil, Blackcal::TimeOfDay.new(13, 42)],
+      [13.42, nil, Blackcal::TimeOfDay.new(13, 42)],
+    ].each do |data|
+      hour, min, expected = data
+
+      it 'converts arguments to TimeOfDay object' do
+        expect(described_class.time_of_day(hour, min)).to eq(expected)
+      end
+    end
+  end
 end

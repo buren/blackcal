@@ -19,8 +19,8 @@ module Blackcal
     # @param [Hash] data the initial data
     # @option start_time [Time, Date, String, nil]
     # @option finish_time [Time, Date, String, nil]
-    # @option start_time_of_day [TimeOfDay, Time, Integer, nil]
-    # @option finish_time_of_day [TimeOfDay, Time, Integer, nil]
+    # @option start_time_of_day [TimeOfDay, Time, Float, Integer, nil]
+    # @option finish_time_of_day [TimeOfDay, Time, Float, Integer, nil]
     # @option months [Array<String>, Array<Symbol>, String, Symbol, nil]
     # @option weekdays [Array<String>, Array<Symbol>, String, Symbol, nil]
     # @option weeks_of_month [Array<Integer>, nil]

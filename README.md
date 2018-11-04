@@ -75,7 +75,8 @@ schedule = Blackcal.schedule(
   months: [:january],
   weeks_of_month: [3],
   weekdays: [:monday, :tuesday],
-  start_time_of_day: 18, finish_time_of_day: 7,
+  start_time_of_day: 18,
+  finish_time_of_day: 7.30, # use floats to represent hour/min
   days: 15..25
 )
 schedule.cover?('2018-01-16 06:00')

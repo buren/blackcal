@@ -40,6 +40,16 @@ module Blackcal
         return TimeOfDay.new(time_or_hour.hour, time_or_hour.min)
       end
 
+      if time_or_hour.is_a?(Float)
+        hour, min = time_or_hour.to_s.split('.').map(&:to_i)
+        return TimeOfDay.new(hour, min)
+      end
+
+      if time_or_hour.is_a?(String)
+        time = TimeUtil.parse(time_or_hour)
+        return TimeOfDay.new(time.hour, time.min)
+      end
+
       if min
         return TimeOfDay.new(time_or_hour, min)
       end

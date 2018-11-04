@@ -19,6 +19,14 @@ RSpec.describe Blackcal::TimeOfDay do
       expect(t1 == t2).to eq(true)
     end
 
+    it 'can handle comparision with float' do
+      t1 = described_class.new(14, 59)
+
+      expect(t1 == 14.59).to eq(true)
+      expect(t1 > 14.58).to eq(true)
+      expect(t1 < 14.58).to eq(false)
+    end
+
     context 'can compare with integer' do
       it do
         expect(described_class.new(13) > 10).to eq(true)
