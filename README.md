@@ -35,7 +35,7 @@ schedule.cover?('2019-01-02 19:00')
 
 Schedule between 6pm and 7am every day
 ```ruby
-schedule = Blackcal.schedule(start_time_of_day: 18, finish_hour_of_day: 7)
+schedule = Blackcal.schedule(start_time_of_day: 18, finish_time_of_day: 7)
 schedule.cover?('2019-01-01 19:00')
 # => true
 schedule.cover?('2019-01-01 11:00')
@@ -75,7 +75,8 @@ schedule = Blackcal.schedule(
   months: [:january],
   weeks_of_month: [3],
   weekdays: [:monday, :tuesday],
-  start_time_of_day: 18, finish_hour_of_day: 7,
+  start_time_of_day: 18,
+  finish_time_of_day: 7.30, # use floats to represent hour/min
   days: 15..25
 )
 schedule.cover?('2018-01-16 06:00')
@@ -84,7 +85,7 @@ schedule.cover?('2018-01-16 08:00')
 # => false
 ```
 
-_Note_: `#cover?` supports `String` and `Time` objects. `start_time_of_day` and `finish_hour_of_day` supports `Blackcal::TimeOfDay`, `Time` and `Integer` objects.
+_Note_: `#cover?` supports `String` and `Time` objects. `start_time_of_day` and `finish_time_of_day` supports `Blackcal::TimeOfDay`, `Time` and `Integer` objects.
 
 Builder pattern
 ```ruby
@@ -93,7 +94,7 @@ Blackcal.schedule do
   weeks_of_month [3]
   weekdays [:monday, :tuesday]
   start_time_of_day 18
-  finish_hour_of_day 7
+  finish_time_of_day 7
   days 15..25
 end
 # you can, though not recommended, mix arguments with the
@@ -105,12 +106,12 @@ end
 
 Matrix representation
 ```ruby
-schedule = Blackcal.schedule(weekdays: :friday, start_time_of_day: 0, finish_hour_of_day: 14)
+schedule = Blackcal.schedule(weekdays: :friday, start_time_of_day: 0, finish_time_of_day: 14)
 schedule.to_matrix(start_date: '2018-09-14', finish_date: '2018-09-16')
 # => [[true, ...], [false, ...]]
 
 # defaults to hour resolution, but you can get minute resolution too
-schedule = Blackcal.schedule(weekdays: :friday, start_time_of_day: 0, finish_hour_of_day: 14)
+schedule = Blackcal.schedule(weekdays: :friday, start_time_of_day: 0, finish_time_of_day: 14)
 schedule.to_matrix(resolution: :min, start_date: '2018-09-14', finish_date: '2018-09-16')
 # => [[true, ...], [false, ...]]
 ```

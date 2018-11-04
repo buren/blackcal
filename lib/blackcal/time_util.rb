@@ -1,8 +1,19 @@
 # frozen_string_literal: true
 
+require 'blackcal/time_of_day'
+
 module Blackcal
   # Time utils module
   module TimeUtil
+    # @param [String, Time] time
+    # @return [Time] tine as time
+    # @see [Time::parse]
+    def self.parse(time)
+      return Time.parse(time) if time.is_a?(String)
+
+      time
+    end
+
     # Returns the week of month
     # @return [Integer] week of month
     # @see https://stackoverflow.com/a/30470158/955366
@@ -17,6 +28,33 @@ module Blackcal
 
       month_week_index = date.strftime(week_start_format).to_i - week_of_month_start_num
       month_week_index + 1 # Add 1 so that first week is 1 and not 0
+    end
+
+    # @param [TimeOfDay, Time, Integer, nil] time_or_hour
+    # @param [Integer, nil] min
+    def self.time_of_day(time_or_hour, min = nil)
+      return unless time_or_hour
+      return time_or_hour if time_or_hour.is_a?(TimeOfDay)
+
+      if time_or_hour.is_a?(Time)
+        return TimeOfDay.new(time_or_hour.hour, time_or_hour.min)
+      end
+
+      if time_or_hour.is_a?(Float)
+        hour, min = time_or_hour.to_s.split('.').map(&:to_i)
+        return TimeOfDay.new(hour, min)
+      end
+
+      if time_or_hour.is_a?(String)
+        time = TimeUtil.parse(time_or_hour)
+        return TimeOfDay.new(time.hour, time.min)
+      end
+
+      if min
+        return TimeOfDay.new(time_or_hour, min)
+      end
+
+      TimeOfDay.new(time_or_hour)
     end
   end
 end

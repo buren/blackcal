@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require 'blackcal/time_util'
-require 'blackcal/array_util'
-
 module Blackcal
   # Week of month range
   class WeeksOfMonthRange
@@ -22,6 +19,7 @@ module Blackcal
     end
 
     # Returns true if it covers timestamp
+    # @param [Time] timestamp
     # @return [Boolean]
     def cover?(timestamp)
       return false if numbers.nil? || numbers.empty?

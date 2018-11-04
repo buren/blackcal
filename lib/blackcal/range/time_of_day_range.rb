@@ -16,6 +16,7 @@ module Blackcal
     end
 
     # Returns true if it covers timestamp
+    # @param [Time] timestamp
     # @return [Boolean]
     def cover?(timestamp)
       return false if @start.nil? && @finish.nil?
@@ -33,13 +34,13 @@ module Blackcal
     # Return start hour
     # @return [TimeOfDay]
     def start
-      @start_time ||= to_time_of_day(@start || 0)
+      @start_time ||= TimeUtil.time_of_day(@start || 0)
     end
 
     # Return finish hour
     # @return [TimeOfDay]
     def finish
-      @finish_time ||= to_time_of_day(@finish || 0)
+      @finish_time ||= TimeUtil.time_of_day(@finish || 0)
     end
 
     # Returns range as an array
@@ -80,15 +81,6 @@ module Blackcal
         (start.min..finish_min).each { |min| times << [hour, min] }
       end
       times
-    end
-
-    def to_time_of_day(number_or_day)
-      return number_or_day if number_or_day.is_a?(TimeOfDay)
-      if number_or_day.is_a?(Time)
-        return TimeOfDay.new(number_or_day.hour, number_or_day.min)
-      end
-
-      TimeOfDay.new(number_or_day)
     end
   end
 end

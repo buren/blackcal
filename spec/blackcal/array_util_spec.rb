@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'spec_helper'
-require 'blackcal/array_util'
 
 RSpec.describe Blackcal::ArrayUtil do
   describe '::deep_flatten' do

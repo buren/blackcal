@@ -12,7 +12,7 @@ RSpec.describe Blackcal::Schedule do
     end
 
     it 'given only start date covers nothing' do
-      schedule = described_class.new(start_time: '2000-01-01')
+      schedule = described_class.new(start_time: Time.parse('2000-01-01'))
 
       expect(schedule.cover?('2019-01-01 19:00')).to eq(false)
     end
@@ -27,28 +27,28 @@ RSpec.describe Blackcal::Schedule do
 
     context 'with start and end hour' do
       it 'handles covered case' do
-        schedule = described_class.new(start_time_of_day: 18, finish_hour_of_day: 12)
+        schedule = described_class.new(start_time_of_day: 18, finish_time_of_day: 12)
 
         expect(schedule.cover?('2019-01-01 19:00')).to eq(true)
       end
 
       it 'handles covered case around midnight' do
         finish = Blackcal::TimeOfDay.new(23, 59)
-        schedule = described_class.new(start_time_of_day: 0, finish_hour_of_day: finish)
+        schedule = described_class.new(start_time_of_day: 0, finish_time_of_day: finish)
 
         expect(schedule.cover?('2019-01-01 23:59')).to eq(true)
         expect(schedule.cover?('2019-01-01 00:01')).to eq(true)
       end
 
       it 'handles not covered cases' do
-        schedule = described_class.new(start_time_of_day: 18, finish_hour_of_day: 12)
+        schedule = described_class.new(start_time_of_day: 18, finish_time_of_day: 12)
 
         expect(schedule.cover?('2019-01-01 17:00')).to eq(false)
       end
     end
 
     [
-      # expected, timestamp, start_time_of_day, finish_hour_of_day, weekdays, days, months, weeks_of_month
+      # expected, timestamp, start_time_of_day, finish_time_of_day, weekdays, days, months, weeks_of_month
       [false, '2018-10-15 19:00Z', 18, 12, :monday, 15, :november, nil],
       [false, '2018-10-15 19:00Z', 18, 12, :tuesday, 15, nil, nil],
       [true, '2018-10-15 19:00Z', 18, 12, :monday, 15, :october, nil],
@@ -71,13 +71,13 @@ RSpec.describe Blackcal::Schedule do
       [false, '2018-09-15 13:00Z', 10, 14, nil, 17, nil, nil],
       [true, '2018-09-15 13:00Z', 10, 14, nil, nil, nil, nil],
     ].each do |data|
-      expected, timestamp, start_time_of_day, finish_hour_of_day, weekdays, days, months, weeks_of_month = data
+      expected, timestamp, start_time_of_day, finish_time_of_day, weekdays, days, months, weeks_of_month = data
 
       it "returns #{expected}" do
         schedule = described_class.new(
-          start_time: '2000-01-01',
+          start_time: Time.parse('2000-01-01'),
           start_time_of_day: start_time_of_day,
-          finish_hour_of_day: finish_hour_of_day,
+          finish_time_of_day: finish_time_of_day,
           months: months,
           weeks_of_month: weeks_of_month,
           weekdays: weekdays,
@@ -91,7 +91,7 @@ RSpec.describe Blackcal::Schedule do
 
   describe '#to_matrix' do
     it 'works with hour resolution' do
-      schedule = described_class.new(weekdays: :friday, start_time_of_day: 10, finish_hour_of_day: 14)
+      schedule = described_class.new(weekdays: :friday, start_time_of_day: 10, finish_time_of_day: 14)
       matrix = schedule.to_matrix(start_date: '2018-09-14', finish_date: '2018-09-16')
 
       expected = [
@@ -109,11 +109,11 @@ RSpec.describe Blackcal::Schedule do
     it 'works with minute resolution' do
       schedule = described_class.new(
         start_time_of_day: Blackcal::TimeOfDay.new(23, 58),
-        finish_hour_of_day: Blackcal::TimeOfDay.new(0, 2)
+        finish_time_of_day: Blackcal::TimeOfDay.new(0, 2)
       )
       matrix = schedule.to_matrix(
-        start_date: '2018-09-14',
-        finish_date: '2018-09-15',
+        start_date: Time.parse('2018-09-14'),
+        finish_date: Time.parse('2018-09-15'),
         resolution: :min
       )
 

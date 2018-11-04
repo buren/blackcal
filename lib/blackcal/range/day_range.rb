@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'blackcal/array_util'
-
 module Blackcal
   # Day range
   class DayRange
@@ -23,6 +21,7 @@ module Blackcal
     end
 
     # Returns true if it covers timestamp
+    # @param [Time] timestamp
     # @return [Boolean]
     def cover?(timestamp)
       return false if numbers.nil? || numbers.empty?
