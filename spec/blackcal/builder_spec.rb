@@ -35,9 +35,11 @@ RSpec.describe Blackcal::Builder do
   describe '::new' do
     it 'can be initialized with data' do
       time = Time.parse('2019-01-01')
-      builder = described_class.new(start_time: time)
+      builder = described_class.new(start_time: time, start_time_of_day: 13)
 
       expect(builder.to_h[:start_time]).to eq(time)
+      expect(builder.to_h[:start_time_of_day]).to be_a(Blackcal::TimeOfDay)
+      expect(builder.to_h[:start_time_of_day]).to eq(13)
     end
   end
 

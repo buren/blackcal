@@ -26,7 +26,8 @@ module Blackcal
     # @option weeks_of_month [Array<Integer>, nil]
     # @option days [Array<Integer>, Integer, nil]
     def initialize(data = {}, &block)
-      @data = data || {}
+      @data = data
+      data.each { |attribute, value| send(attribute, value) }
       self.instance_eval(&block) if block
     end
 
