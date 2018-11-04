@@ -94,8 +94,8 @@ module Blackcal
     end
 
     # Returns schedule represented as a matrix
-    # @param start_date [Date]
-    # @param finish_date [Date]
+    # @param start_date [Date, String]
+    # @param finish_date [Date, String]
     # @return [Array<Array<Boolean>>]
     def to_matrix(start_date:, finish_date:, resolution: :hour)
       start_time = TimeUtil.parse(start_date).to_time

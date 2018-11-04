@@ -4,6 +4,7 @@ module Blackcal
   # Builder provides a DSL for schedule options
   class Builder
     # Enables a DSL for building schedule options
+    # @param [Hash] default data for builder (optional)
     # @return [Builder]
     # @example
     #   Blackcal.dsl do

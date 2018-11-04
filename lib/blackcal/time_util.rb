@@ -30,19 +30,21 @@ module Blackcal
       month_week_index + 1 # Add 1 so that first week is 1 and not 0
     end
 
-    def self.time_of_day(number_or_day, min = nil)
-      return unless number_or_day
-      return number_or_day if number_or_day.is_a?(TimeOfDay)
+    # @param [TimeOfDay, Time, Integer, nil] time_or_hour
+    # @param [Integer, nil] min
+    def self.time_of_day(time_or_hour, min = nil)
+      return unless time_or_hour
+      return time_or_hour if time_or_hour.is_a?(TimeOfDay)
 
-      if number_or_day.is_a?(Time)
-        return TimeOfDay.new(number_or_day.hour, number_or_day.min)
+      if time_or_hour.is_a?(Time)
+        return TimeOfDay.new(time_or_hour.hour, time_or_hour.min)
       end
 
       if min
-        return TimeOfDay.new(number_or_day, min)
+        return TimeOfDay.new(time_or_hour, min)
       end
 
-      TimeOfDay.new(number_or_day)
+      TimeOfDay.new(time_or_hour)
     end
   end
 end

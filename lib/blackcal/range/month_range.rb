@@ -44,6 +44,7 @@ module Blackcal
     end
 
     # Returns true if it covers timestamp
+    # @param [Time] timestamp
     # @return [Boolean]
     def cover?(timestamp)
       return false if @months.nil? || @months.empty?

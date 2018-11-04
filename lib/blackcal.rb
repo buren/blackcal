@@ -17,7 +17,7 @@ module Blackcal
   #     weekdays: [:monday, :tuesday],
   #     start_time_of_day: 18,
   #     finish_time_of_day: 7,
-  #     days: (15..25).to_a
+  #     days: 15..25
   #   )
   # @example All options – using block builder
   #   schedule = Blackcal.schedule do
@@ -26,7 +26,7 @@ module Blackcal
   #     weekdays [:monday, :tuesday]
   #     start_time_of_day 18
   #     finish_time_of_day 7
-  #     days (15..25).to_a
+  #     days 15..25
   #   end
   # @see Schedule#initialize
   # @see Builder::dsl
