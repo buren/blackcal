@@ -16,7 +16,7 @@ module Blackcal
   #     weeks_of_month: [3],
   #     weekdays: [:monday, :tuesday],
   #     start_time_of_day: 18,
-  #     finish_hour_of_day: 7,
+  #     finish_time_of_day: 7,
   #     days: (15..25).to_a
   #   )
   # @example All options – using block builder
@@ -25,7 +25,7 @@ module Blackcal
   #     weeks_of_month [3]
   #     weekdays [:monday, :tuesday]
   #     start_time_of_day 18
-  #     finish_hour_of_day 7
+  #     finish_time_of_day 7
   #     days (15..25).to_a
   #   end
   # @see Schedule#initialize

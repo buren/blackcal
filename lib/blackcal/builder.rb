@@ -19,7 +19,7 @@ module Blackcal
     # @option start_time [Time, Date, String, nil]
     # @option finish_time [Time, Date, String, nil]
     # @option start_time_of_day [TimeOfDay, Time, Integer, nil]
-    # @option finish_hour_of_day [TimeOfDay, Time, Integer, nil]
+    # @option finish_time_of_day [TimeOfDay, Time, Integer, nil]
     # @option months [Array<String>, Array<Symbol>, String, Symbol, nil]
     # @option weekdays [Array<String>, Array<Symbol>, String, Symbol, nil]
     # @option weeks_of_month [Array<Integer>, nil]
@@ -45,10 +45,10 @@ module Blackcal
       @data[:start_time_of_day] = TimeUtil.time_of_day(start_time_of_day, min)
     end
 
-    # @param [TimeOfDay, Time, Integer, nil] finish_hour_of_day
+    # @param [TimeOfDay, Time, Integer, nil] finish_time_of_day
     # @param [Integer, nil] min minute
-    def finish_hour_of_day(finish_hour_of_day, min = nil)
-      @data[:finish_hour_of_day] = TimeUtil.time_of_day(finish_hour_of_day, min)
+    def finish_time_of_day(finish_time_of_day, min = nil)
+      @data[:finish_time_of_day] = TimeUtil.time_of_day(finish_time_of_day, min)
     end
 
     # @param [Array<String>, Array<Symbol>, String, Symbol, nil] months

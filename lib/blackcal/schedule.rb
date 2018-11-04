@@ -35,7 +35,7 @@ module Blackcal
     # @param start_time [Time, Date, String, nil]
     # @param finish_time [Time, Date, String, nil]
     # @param start_time_of_day [TimeOfDay, nil]
-    # @param finish_hour_of_day [TimeOfDay, nil]
+    # @param finish_time_of_day [TimeOfDay, nil]
     # @param months [Array<String>, Array<Symbol>, String, Symbol, nil]
     # @param weekdays [Array<String>, Array<Symbol>, String, Symbol, nil]
     # @param weeks_of_month [Array<Integer>, nil]
@@ -49,7 +49,7 @@ module Blackcal
       start_time: nil,
       finish_time: nil,
       start_time_of_day: nil,
-      finish_hour_of_day: nil,
+      finish_time_of_day: nil,
       months: nil,
       weekdays: nil,
       weeks_of_month: nil,
@@ -59,8 +59,8 @@ module Blackcal
         @time_range = TimeRange.new(start_time, finish_time)
       end
 
-      if start_time_of_day || finish_hour_of_day
-        @time_of_day = TimeOfDayRange.new(start_time_of_day, finish_hour_of_day)
+      if start_time_of_day || finish_time_of_day
+        @time_of_day = TimeOfDayRange.new(start_time_of_day, finish_time_of_day)
       end
 
       if months

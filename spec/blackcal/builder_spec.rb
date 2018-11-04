@@ -10,7 +10,7 @@ RSpec.describe Blackcal::Builder do
         start_time Time.parse('2019-01-01')
         finish_time Time.parse('2020-01-01')
         start_time_of_day 18
-        finish_hour_of_day 7
+        finish_time_of_day 7
         months :january
         weekdays :monday, :wednesday
         weeks_of_month 1, 3
@@ -21,7 +21,7 @@ RSpec.describe Blackcal::Builder do
         start_time: Time.parse('2019-01-01'),
         finish_time: Time.parse('2020-01-01'),
         start_time_of_day: 18,
-        finish_hour_of_day: 7,
+        finish_time_of_day: 7,
         months: [:january],
         weekdays: [:monday, :wednesday],
         days: [15, 18],
@@ -113,7 +113,7 @@ RSpec.describe Blackcal::Builder do
     end
   end
 
-  %i[start_time_of_day finish_hour_of_day].each do |attribute|
+  %i[start_time_of_day finish_time_of_day].each do |attribute|
     describe "##{attribute}" do
       [
         # hour_of_day, min, expected
