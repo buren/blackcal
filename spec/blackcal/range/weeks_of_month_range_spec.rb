@@ -3,7 +3,7 @@
 require 'spec_helper'
 require 'time'
 
-RSpec.describe Blackcal::WeekOfMonthRange do
+RSpec.describe Blackcal::WeeksOfMonthRange do
   context 'quacks like an enumerable' do
     it 'has #to_a' do
       range = described_class.new(1)

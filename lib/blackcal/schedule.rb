@@ -4,7 +4,7 @@ require 'time'
 
 require 'blackcal/range/time_range'
 require 'blackcal/range/time_of_day_range'
-require 'blackcal/range/week_of_month_range'
+require 'blackcal/range/weeks_of_month_range'
 require 'blackcal/range/weekday_range'
 require 'blackcal/range/month_range'
 require 'blackcal/range/day_range'
@@ -22,7 +22,7 @@ module Blackcal
     # @return [TimeOfDay] time of day when this schedule is active
     attr_reader :time_of_day
 
-    # @return [WeekOfMonthRange] weeks of month when this schedule is active
+    # @return [WeeksOfMonthRange] weeks of month when this schedule is active
     attr_reader :weeks_of_month
 
     # @return [DayRange] days when this schedule is active
@@ -68,7 +68,7 @@ module Blackcal
       end
 
       if weeks_of_month
-        @weeks_of_month = WeekOfMonthRange.new(weeks_of_month)
+        @weeks_of_month = WeeksOfMonthRange.new(weeks_of_month)
       end
 
       if weekdays

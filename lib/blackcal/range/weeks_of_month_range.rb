@@ -5,7 +5,7 @@ require 'blackcal/array_util'
 
 module Blackcal
   # Week of month range
-  class WeekOfMonthRange
+  class WeeksOfMonthRange
     include Enumerable
 
     # @return [Array<Integer>] numbers in range
@@ -14,9 +14,9 @@ module Blackcal
     # Initialize numbers range
     # @param [Array<Integer>, Integer, nil] numbers
     # @example
-    #   WeekOfMonthRange.new(1)
+    #   WeeksOfMonthRange.new(1)
     # @example
-    #   WeekOfMonthRange.new([1, 2])
+    #   WeeksOfMonthRange.new([1, 2])
     def initialize(numbers)
       @numbers = ArrayUtil.flatten(numbers) if numbers
     end
