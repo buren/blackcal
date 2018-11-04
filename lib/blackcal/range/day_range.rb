@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Blackcal
-  # Number range
+  # Day range
   class DayRange
     include Enumerable
 
@@ -9,13 +9,20 @@ module Blackcal
     attr_reader :numbers
 
     # Initialize numbers range
-    # @param [Array<Integer>, Integer, nil] numbers
+    # @param [Array<#to_a>, Array<Integer>, Integer, nil] numbers
     # @example
-    #   NumberRange.new(1)
+    #   DayRange.new(1)
     # @example
-    #   NumberRange.new([1, 2])
+    #   DayRange.new([1, 2])
+    # @example
+    #   DayRange.new([9..10, 13..14])
     def initialize(numbers)
-      @numbers = Array(numbers) if numbers
+      @numbers = if numbers
+                   Array(numbers).map do |arg|
+                     next arg.to_a if arg.respond_to?(:to_a)
+                     arg
+                   end.flatten(1)
+                 end
     end
 
     # Returns true if it covers timestamp

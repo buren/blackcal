@@ -4,6 +4,23 @@ require 'spec_helper'
 require 'time'
 
 RSpec.describe Blackcal::DayRange do
+  describe '::new' do
+    it 'can handle array of integer' do
+      range = described_class.new([9, 13])
+      expect(range.to_a).to eq([9, 13])
+    end
+
+    it 'can handle array of ranges' do
+      range = described_class.new([9..10, 13..15])
+      expect(range.to_a).to eq([9, 10, 13, 14, 15])
+    end
+
+    it 'can integer' do
+      range = described_class.new(9)
+      expect(range.to_a).to eq([9])
+    end
+  end
+
   context 'quacks like an enumerable' do
     it 'has #to_a' do
       range = described_class.new(1)
