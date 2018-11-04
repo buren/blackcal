@@ -32,6 +32,14 @@ RSpec.describe Blackcal::Schedule do
         expect(schedule.cover?('2019-01-01 19:00')).to eq(true)
       end
 
+      it 'handles covered case around midnight' do
+        finish = Blackcal::TimeOfDay.new(23, 59)
+        schedule = described_class.new(start_hour: 0, finish_hour: finish)
+
+        expect(schedule.cover?('2019-01-01 23:59')).to eq(true)
+        expect(schedule.cover?('2019-01-01 00:01')).to eq(true)
+      end
+
       it 'handles not covered cases' do
         schedule = described_class.new(start_hour: 18, finish_hour: 12)
 
