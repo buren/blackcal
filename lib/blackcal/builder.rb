@@ -15,8 +15,17 @@ module Blackcal
     end
 
     # Returns a new instance of Builder
-    def initialize
-      @data = {}
+    # @param [Hash] data the initial data
+    # @option start_time [Time, Date, String, nil]
+    # @option finish_time [Time, Date, String, nil]
+    # @option start_time_of_day [TimeOfDay, Time, Integer, nil]
+    # @option finish_hour_of_day [TimeOfDay, Time, Integer, nil]
+    # @option months [Array<String>, Array<Symbol>, String, Symbol, nil]
+    # @option weekdays [Array<String>, Array<Symbol>, String, Symbol, nil]
+    # @option weeks_of_month [Array<Integer>, nil]
+    # @option days [Array<Integer>, Integer, nil]
+    def initialize(data = {})
+      @data = data || {}
     end
 
     # @param [Time, Date, String, nil] start_time
