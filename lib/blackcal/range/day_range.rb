@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'blackcal/array_util'
-
 module Blackcal
   # Day range
   class DayRange

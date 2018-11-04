@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 require 'blackcal/version'
+require 'blackcal/time_util'
+require 'blackcal/array_util'
 require 'blackcal/schedule'
 require 'blackcal/builder'
 

@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require 'blackcal/time_util'
-require 'blackcal/array_util'
-
 module Blackcal
   # Week of month range
   class WeeksOfMonthRange
