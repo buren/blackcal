@@ -16,8 +16,8 @@ module Blackcal
     # Initialize rule
     # @param start_time [Time, Date, String, nil]
     # @param finish_time [Time, Date, String, nil]
-    # @param start_hour [TimeOfDay, Time, Integer, nil]
-    # @param finish_hour [TimeOfDay, Time, Integer, nil]
+    # @param start_time_of_day [TimeOfDay, Time, Integer, nil]
+    # @param finish_hour_of_day [TimeOfDay, Time, Integer, nil]
     # @param months [Array<String>, Array<Symbol>, String, Symbol, nil]
     # @param weekdays [Array<String>, Array<Symbol>, String, Symbol, nil]
     # @param days [Array<Integer>, Integer, nil]
@@ -29,8 +29,8 @@ module Blackcal
     def initialize(
       start_time: nil,
       finish_time: nil,
-      start_hour: nil,
-      finish_hour: nil,
+      start_time_of_day: nil,
+      finish_hour_of_day: nil,
       months: nil,
       weekdays: nil,
       weeks_of_month: nil,
@@ -40,8 +40,8 @@ module Blackcal
         @rule_range = TimeRange.new(parse_time(start_time), parse_time(finish_time))
       end
 
-      if start_hour || finish_hour
-        @time_of_day = TimeOfDayRange.new(start_hour, finish_hour)
+      if start_time_of_day || finish_hour_of_day
+        @time_of_day = TimeOfDayRange.new(start_time_of_day, finish_hour_of_day)
       end
 
       if months

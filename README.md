@@ -35,7 +35,7 @@ schedule.cover?('2019-01-02 19:00')
 
 Schedule between 6pm and 7am every day
 ```ruby
-schedule = Blackcal.schedule(start_hour: 18, finish_hour: 7)
+schedule = Blackcal.schedule(start_time_of_day: 18, finish_hour_of_day: 7)
 schedule.cover?('2019-01-01 19:00')
 # => true
 schedule.cover?('2019-01-01 11:00')
@@ -43,7 +43,7 @@ schedule.cover?('2019-01-01 11:00')
 
 # minutes are supported too
 eighteen_thirty = Blackcal::TimeOfDay.new(18, 30)
-schedule = Blackcal.schedule(start_hour: eighteen_thirty)
+schedule = Blackcal.schedule(start_time_of_day: eighteen_thirty)
 ```
 
 Schedule day 15 and 17 of month
@@ -75,7 +75,7 @@ schedule = Blackcal.schedule(
   months: [:january],
   weeks_of_month: [3],
   weekdays: [:monday, :tuesday],
-  start_hour: 18, finish_hour: 7,
+  start_time_of_day: 18, finish_hour_of_day: 7,
   days: (15..25).to_a
 )
 schedule.cover?('2018-01-16 06:00')
@@ -84,16 +84,16 @@ schedule.cover?('2018-01-16 08:00')
 # => false
 ```
 
-_Note_: `#cover?` supports `String` and `Time` objects. `start_hour` and `finish_hour` supports `Blackcal::TimeOfDay`, `Time` and `Integer` objects.
+_Note_: `#cover?` supports `String` and `Time` objects. `start_time_of_day` and `finish_hour_of_day` supports `Blackcal::TimeOfDay`, `Time` and `Integer` objects.
 
 Matrix representation
 ```ruby
-schedule = Blackcal.schedule(weekdays: :friday, start_hour: 0, finish_hour: 14)
+schedule = Blackcal.schedule(weekdays: :friday, start_time_of_day: 0, finish_hour_of_day: 14)
 schedule.to_matrix(start_date: '2018-09-14', finish_date: '2018-09-16')
 # => [[true, ...], [false, ...]]
 
 # defaults to hour resolution, but you can get minute resolution too
-schedule = Blackcal.schedule(weekdays: :friday, start_hour: 0, finish_hour: 14)
+schedule = Blackcal.schedule(weekdays: :friday, start_time_of_day: 0, finish_hour_of_day: 14)
 schedule.to_matrix(resolution: :min, start_date: '2018-09-14', finish_date: '2018-09-16')
 # => [[true, ...], [false, ...]]
 ```
